@@ -1,4 +1,4 @@
-import { CircleAlert, Eye, EyeOff } from 'lucide-react'
+import { EyeIcon, EyeSlashIcon, WarningCircleIcon } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -21,7 +21,7 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
     <form onSubmit={submit} noValidate className="flex flex-col gap-5">
       {submitError && (
         <Alert variant="destructive" role="alert">
-          <CircleAlert />
+          <WarningCircleIcon />
           <AlertDescription>{submitError.message}</AlertDescription>
         </Alert>
       )}
@@ -64,7 +64,7 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
             aria-label={isPasswordVisible ? 'Hide password' : 'Show password'}
             onClick={() => setIsPasswordVisible((visible) => !visible)}
           >
-            {isPasswordVisible ? <EyeOff /> : <Eye />}
+            {isPasswordVisible ? <EyeSlashIcon /> : <EyeIcon />}
           </Button>
         </div>
         {errors.password && <p className="text-caption text-text-danger">{errors.password.message}</p>}

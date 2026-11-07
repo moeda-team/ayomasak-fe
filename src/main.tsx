@@ -1,7 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from '@/app/app'
+import { initTheme } from '@/hooks/use-theme'
 import '@/styles/index.css'
+
+initTheme()
 
 const rootElement = document.getElementById('root')
 if (!rootElement) throw new Error('Root element #root not found')

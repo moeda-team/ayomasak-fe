@@ -36,7 +36,7 @@ export const LoginPage = () => {
       <img
         src="/raos-logo.svg"
         alt="Raos"
-        className="h-8 w-auto self-start sm:h-9 lg:col-start-1 lg:row-start-1 lg:m-8"
+        className="h-8 w-auto self-start sm:h-9 lg:col-start-1 lg:row-start-1 lg:m-8 dark:brightness-0 dark:invert"
       />
       <LoginHero />
       <section className="mx-auto flex w-full max-w-100 flex-col gap-8 pb-4 lg:col-start-1 lg:row-start-2 lg:justify-center lg:px-8 lg:pb-24">

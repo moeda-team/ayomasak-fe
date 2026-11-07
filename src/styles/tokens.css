@@ -40,6 +40,25 @@
 
   --brand-primary: #4f46e5;
 
+  /*
+   * Chart and avatar colors. Read from the dashboard widgets in Figma (raw fills, not variables).
+   * Dark values are not designed yet, so they reuse the light ones.
+   */
+  --chart-ink: #211d60;
+  --chart-deep: #2b277e;
+  --chart-strong: #3832a3;
+  --chart-base: #4f46e5;
+  --chart-mid: #8983ee;
+  --chart-soft: #aeaaf3;
+  --chart-faint: #c8c6f7;
+  --chart-track: var(--border-default);
+
+  --avatar-1: #4f46e5;
+  --avatar-2: #9333ea;
+  --avatar-3: #ca8a04;
+  --avatar-4: #e11d48;
+  --avatar-5: #65a30d;
+
   /* Raos/Elevation/* */
   --elevation-raised: 0 1px 5px 0 rgb(0 0 0 / 0.05);
   --elevation-overlay: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);

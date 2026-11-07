@@ -13,11 +13,17 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppAuditLogRouteImport } from './routes/_app/audit-log'
+import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
+import { Route as AppDataQualityRouteImport } from './routes/_app/data-quality'
 import { Route as AppMasterBahanRouteImport } from './routes/_app/master-bahan'
 import { Route as AppMasterEquipmentRouteImport } from './routes/_app/master-equipment'
+import { Route as AppModerationQueueRouteImport } from './routes/_app/moderation-queue'
 import { Route as AppRecipesRouteImport } from './routes/_app/recipes'
 import { Route as AppReviewQueueRouteImport } from './routes/_app/review-queue'
+import { Route as AppRolePermissionRouteImport } from './routes/_app/role-permission'
 import { Route as AppSystemConfigurationRouteImport } from './routes/_app/system-configuration'
+import { Route as AppUserActivityRouteImport } from './routes/_app/user-activity'
+import { Route as AppUserListRouteImport } from './routes/_app/user-list'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -38,6 +44,16 @@ const AppAuditLogRoute = AppAuditLogRouteImport.update({
   path: '/audit-log',
   getParentRoute: () => AppRoute,
 } as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDataQualityRoute = AppDataQualityRouteImport.update({
+  id: '/data-quality',
+  path: '/data-quality',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppMasterBahanRoute = AppMasterBahanRouteImport.update({
   id: '/master-bahan',
   path: '/master-bahan',
@@ -46,6 +62,11 @@ const AppMasterBahanRoute = AppMasterBahanRouteImport.update({
 const AppMasterEquipmentRoute = AppMasterEquipmentRouteImport.update({
   id: '/master-equipment',
   path: '/master-equipment',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppModerationQueueRoute = AppModerationQueueRouteImport.update({
+  id: '/moderation-queue',
+  path: '/moderation-queue',
   getParentRoute: () => AppRoute,
 } as any)
 const AppRecipesRoute = AppRecipesRouteImport.update({
@@ -58,9 +79,24 @@ const AppReviewQueueRoute = AppReviewQueueRouteImport.update({
   path: '/review-queue',
   getParentRoute: () => AppRoute,
 } as any)
+const AppRolePermissionRoute = AppRolePermissionRouteImport.update({
+  id: '/role-permission',
+  path: '/role-permission',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSystemConfigurationRoute = AppSystemConfigurationRouteImport.update({
   id: '/system-configuration',
   path: '/system-configuration',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppUserActivityRoute = AppUserActivityRouteImport.update({
+  id: '/user-activity',
+  path: '/user-activity',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppUserListRoute = AppUserListRouteImport.update({
+  id: '/user-list',
+  path: '/user-list',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -68,20 +104,32 @@ export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
   '/audit-log': typeof AppAuditLogRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/data-quality': typeof AppDataQualityRoute
   '/master-bahan': typeof AppMasterBahanRoute
   '/master-equipment': typeof AppMasterEquipmentRoute
+  '/moderation-queue': typeof AppModerationQueueRoute
   '/recipes': typeof AppRecipesRoute
   '/review-queue': typeof AppReviewQueueRoute
+  '/role-permission': typeof AppRolePermissionRoute
   '/system-configuration': typeof AppSystemConfigurationRoute
+  '/user-activity': typeof AppUserActivityRoute
+  '/user-list': typeof AppUserListRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/audit-log': typeof AppAuditLogRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/data-quality': typeof AppDataQualityRoute
   '/master-bahan': typeof AppMasterBahanRoute
   '/master-equipment': typeof AppMasterEquipmentRoute
+  '/moderation-queue': typeof AppModerationQueueRoute
   '/recipes': typeof AppRecipesRoute
   '/review-queue': typeof AppReviewQueueRoute
+  '/role-permission': typeof AppRolePermissionRoute
   '/system-configuration': typeof AppSystemConfigurationRoute
+  '/user-activity': typeof AppUserActivityRoute
+  '/user-list': typeof AppUserListRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -89,11 +137,17 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/_app/audit-log': typeof AppAuditLogRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/data-quality': typeof AppDataQualityRoute
   '/_app/master-bahan': typeof AppMasterBahanRoute
   '/_app/master-equipment': typeof AppMasterEquipmentRoute
+  '/_app/moderation-queue': typeof AppModerationQueueRoute
   '/_app/recipes': typeof AppRecipesRoute
   '/_app/review-queue': typeof AppReviewQueueRoute
+  '/_app/role-permission': typeof AppRolePermissionRoute
   '/_app/system-configuration': typeof AppSystemConfigurationRoute
+  '/_app/user-activity': typeof AppUserActivityRoute
+  '/_app/user-list': typeof AppUserListRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -102,31 +156,49 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/audit-log'
+    | '/dashboard'
+    | '/data-quality'
     | '/master-bahan'
     | '/master-equipment'
+    | '/moderation-queue'
     | '/recipes'
     | '/review-queue'
+    | '/role-permission'
     | '/system-configuration'
+    | '/user-activity'
+    | '/user-list'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
     | '/audit-log'
+    | '/dashboard'
+    | '/data-quality'
     | '/master-bahan'
     | '/master-equipment'
+    | '/moderation-queue'
     | '/recipes'
     | '/review-queue'
+    | '/role-permission'
     | '/system-configuration'
+    | '/user-activity'
+    | '/user-list'
     | '/'
   id:
     | '__root__'
     | '/_app'
     | '/login'
     | '/_app/audit-log'
+    | '/_app/dashboard'
+    | '/_app/data-quality'
     | '/_app/master-bahan'
     | '/_app/master-equipment'
+    | '/_app/moderation-queue'
     | '/_app/recipes'
     | '/_app/review-queue'
+    | '/_app/role-permission'
     | '/_app/system-configuration'
+    | '/_app/user-activity'
+    | '/_app/user-list'
     | '/_app/'
   fileRoutesById: FileRoutesById
 }
@@ -165,6 +237,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAuditLogRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/data-quality': {
+      id: '/_app/data-quality'
+      path: '/data-quality'
+      fullPath: '/data-quality'
+      preLoaderRoute: typeof AppDataQualityRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/master-bahan': {
       id: '/_app/master-bahan'
       path: '/master-bahan'
@@ -177,6 +263,13 @@ declare module '@tanstack/react-router' {
       path: '/master-equipment'
       fullPath: '/master-equipment'
       preLoaderRoute: typeof AppMasterEquipmentRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/moderation-queue': {
+      id: '/_app/moderation-queue'
+      path: '/moderation-queue'
+      fullPath: '/moderation-queue'
+      preLoaderRoute: typeof AppModerationQueueRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/recipes': {
@@ -193,6 +286,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppReviewQueueRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/role-permission': {
+      id: '/_app/role-permission'
+      path: '/role-permission'
+      fullPath: '/role-permission'
+      preLoaderRoute: typeof AppRolePermissionRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/system-configuration': {
       id: '/_app/system-configuration'
       path: '/system-configuration'
@@ -200,26 +300,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSystemConfigurationRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/user-activity': {
+      id: '/_app/user-activity'
+      path: '/user-activity'
+      fullPath: '/user-activity'
+      preLoaderRoute: typeof AppUserActivityRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/user-list': {
+      id: '/_app/user-list'
+      path: '/user-list'
+      fullPath: '/user-list'
+      preLoaderRoute: typeof AppUserListRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppAuditLogRoute: typeof AppAuditLogRoute
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppDataQualityRoute: typeof AppDataQualityRoute
   AppMasterBahanRoute: typeof AppMasterBahanRoute
   AppMasterEquipmentRoute: typeof AppMasterEquipmentRoute
+  AppModerationQueueRoute: typeof AppModerationQueueRoute
   AppRecipesRoute: typeof AppRecipesRoute
   AppReviewQueueRoute: typeof AppReviewQueueRoute
+  AppRolePermissionRoute: typeof AppRolePermissionRoute
   AppSystemConfigurationRoute: typeof AppSystemConfigurationRoute
+  AppUserActivityRoute: typeof AppUserActivityRoute
+  AppUserListRoute: typeof AppUserListRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAuditLogRoute: AppAuditLogRoute,
+  AppDashboardRoute: AppDashboardRoute,
+  AppDataQualityRoute: AppDataQualityRoute,
   AppMasterBahanRoute: AppMasterBahanRoute,
   AppMasterEquipmentRoute: AppMasterEquipmentRoute,
+  AppModerationQueueRoute: AppModerationQueueRoute,
   AppRecipesRoute: AppRecipesRoute,
   AppReviewQueueRoute: AppReviewQueueRoute,
+  AppRolePermissionRoute: AppRolePermissionRoute,
   AppSystemConfigurationRoute: AppSystemConfigurationRoute,
+  AppUserActivityRoute: AppUserActivityRoute,
+  AppUserListRoute: AppUserListRoute,
   AppIndexRoute: AppIndexRoute,
 }
 

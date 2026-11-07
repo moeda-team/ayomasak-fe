@@ -1,4 +1,4 @@
-import { TriangleAlert } from 'lucide-react'
+import { WarningIcon } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 
 type ErrorStateProps = {
@@ -14,7 +14,7 @@ export const ErrorState = ({
 }: ErrorStateProps) => (
   <div role="alert" className="flex flex-col items-center gap-3 px-6 py-16 text-center">
     <span className="flex size-12 items-center justify-center rounded-full bg-status-danger-subtle text-status-danger">
-      <TriangleAlert className="size-6" aria-hidden />
+      <WarningIcon className="size-6" aria-hidden />
     </span>
     <h2 className="text-heading-3">{title}</h2>
     <p className="max-w-md text-body text-text-secondary">{description}</p>
