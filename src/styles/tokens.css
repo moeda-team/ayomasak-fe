@@ -1,0 +1,87 @@
+/*
+ * Raos design tokens — source: FigCraft "Raos" (variable collections Semantic · Light/Dark,
+ * Dimension · Default, Typography · Default; styles Raos/Elevation/*, Raos/Focus Ring).
+ * Names mirror the Figma variables. Do not edit values here without changing Figma first.
+ */
+
+:root {
+  /* Semantic · Light */
+  --text-primary: #121212;
+  --text-secondary: #717171;
+  --text-disabled: #9d9d9d;
+  --text-inverse: #ffffff;
+  --text-brand: #4840d0;
+  --text-success: #107435;
+  --text-warning: #8f6203;
+  --text-danger: #bc1d1d;
+
+  --surface-default: #ffffff;
+  --surface-subtle: #fafafa;
+  --surface-brand-subtle: #ededfc;
+  --surface-inverse: #121212;
+
+  --border-default: #eaeaea;
+  --border-strong: #bdbdbd;
+  --border-focus: #4f46e5;
+
+  --action-primary: #4f46e5;
+  --action-primary-hover: #4840d0;
+  --action-primary-pressed: #3832a3;
+  --action-primary-disabled: #aeaaf3;
+
+  --status-success: #16a34a;
+  --status-success-subtle: #e8f6ed;
+  --status-warning: #ca8a04;
+  --status-warning-subtle: #faf3e6;
+  --status-danger: #cf2020;
+  --status-danger-subtle: #fae9e9;
+  --status-info: #2563eb;
+  --status-info-subtle: #e9effd;
+
+  --brand-primary: #4f46e5;
+
+  /* Raos/Elevation/* */
+  --elevation-raised: 0 1px 5px 0 rgb(0 0 0 / 0.05);
+  --elevation-overlay: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --elevation-modal: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.08);
+  /* Raos/Focus Ring: 3px indigo at 30% */
+  --focus-ring: 0 0 0 3px rgb(79 70 229 / 0.3);
+}
+
+.dark {
+  /* Semantic · Dark */
+  --text-primary: #fafafa;
+  --text-secondary: #a3a3a3;
+  --text-disabled: #5c5c5c;
+  --text-inverse: #ffffff;
+  --text-brand: #8983ee;
+  --text-success: #45b56e;
+  --text-warning: #d5a136;
+  --text-danger: #e66565;
+
+  --surface-default: #181818;
+  --surface-subtle: #1f1f1f;
+  --surface-brand-subtle: #24224a;
+  --surface-inverse: #333333;
+
+  --border-default: #2e2e2e;
+  --border-strong: #4a4a4a;
+  --border-focus: #726bea;
+
+  --action-primary: #5b53e8;
+  --action-primary-hover: #6e67ec;
+  --action-primary-pressed: #4f46e5;
+  --action-primary-disabled: #33305f;
+
+  --status-success: #45b56e;
+  --status-success-subtle: #182d20;
+  --status-warning: #d5a136;
+  --status-warning-subtle: #332915;
+  --status-danger: #e05a5a;
+  --status-danger-subtle: #331919;
+  --status-info: #5182ef;
+  --status-info-subtle: #1a2338;
+
+  --brand-primary: #5b53e8;
+
+}

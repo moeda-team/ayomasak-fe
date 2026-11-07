@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "figcraft": {
+      "type": "stdio",
+      "command": "D:\\FIGCRAFT\\ArtCraft\\FigCraft\\figcraft-cli.exe",
+      "args": [
+        "mcp",
+        "--attach",
+        "7979"
+      ],
+      "env": {}
+    }
+  }
+}
