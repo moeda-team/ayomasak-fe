@@ -21,12 +21,12 @@ const MONTHLY_ISSUES: { open: number; resolved: number }[] = [
   { open: 71, resolved: 29 },
   { open: 66, resolved: 40 },
   { open: 84, resolved: 36 },
-  { open: 77, resolved: 52 },
-  { open: 69, resolved: 47 },
+  { open: 48, resolved: 47 },
+  { open: 64, resolved: 47 },
   { open: 73, resolved: 36 },
-  { open: 61, resolved: 55 },
-  { open: 80, resolved: 43 },
-  { open: 68, resolved: 49 },
+  { open: 84, resolved: 27 },
+  { open: 63, resolved: 48 },
+  { open: 78, resolved: 33 },
 ]
 
 const toMonthStart = (monthsAgo: number, now: Date) => {

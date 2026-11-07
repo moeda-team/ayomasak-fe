@@ -59,6 +59,7 @@
   --shadow-overlay: var(--elevation-overlay);
   --shadow-modal: var(--elevation-modal);
   --shadow-focus-ring: var(--focus-ring);
+  --shadow-marker: var(--elevation-marker);
 }
 
 /*

@@ -63,6 +63,8 @@
   --elevation-raised: 0 1px 5px 0 rgb(0 0 0 / 0.05);
   --elevation-overlay: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --elevation-modal: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.08);
+  /* Glow around the chart hover marker (Figma: 4px blur, EDEDFC at 60%) */
+  --elevation-marker: 0 0 4px 0 rgb(237 237 252 / 0.6);
   /* Raos/Focus Ring: 3px indigo at 30% */
   --focus-ring: 0 0 0 3px rgb(79 70 229 / 0.3);
 }

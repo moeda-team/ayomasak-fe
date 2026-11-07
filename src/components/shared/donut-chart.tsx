@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useRef, useState, type FocusEvent, type PointerEvent } from 'react'
 import { cn } from '@/lib/utils'
+import { ChartHoverMarker, ChartTooltip, ChartTooltipRow, HOVER_MARKER_SIZE } from './chart-hover'
 
 export type DonutSegment = {
   key: string
@@ -15,17 +16,27 @@ type DonutChartProps = {
   className?: string
 }
 
+type HoverState = {
+  key: string
+  /** Marker center, in px from the top-left of the chart. */
+  x: number
+  y: number
+}
+
 const SIZE = 200
 const STROKE = 30
 const RADIUS = (SIZE - STROKE) / 2
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
+const FULL_TURN = Math.PI * 2
+const TOOLTIP_OFFSET = 12
 
 const toPercent = (value: number, total: number) => (total === 0 ? 0 : Math.round((value / total) * 100))
 
 export const DonutChart = ({ segments, centerLabel, className }: DonutChartProps) => {
-  const [activeKey, setActiveKey] = useState<string | null>(null)
+  const chartRef = useRef<HTMLDivElement>(null)
+  const [hover, setHover] = useState<HoverState | null>(null)
   const total = segments.reduce((sum, segment) => sum + segment.value, 0)
-  const active = segments.find((segment) => segment.key === activeKey)
+  const hovered = segments.find((segment) => segment.key === hover?.key)
 
   const arcs = segments.reduce<{ segment: DonutSegment; length: number; offset: number }[]>((placed, segment) => {
     const previous = placed.at(-1)
@@ -34,13 +45,53 @@ export const DonutChart = ({ segments, centerLabel, className }: DonutChartProps
     return [...placed, { segment, length, offset }]
   }, [])
 
-  const activate = (key: string) => () => setActiveKey(key)
-  const deactivate = () => setActiveKey(null)
+  /** Places the marker on the middle of the ring at `angle` (radians, clockwise from 12 o'clock). */
+  const markerAt = (key: string, angle: number, pixelSize: number): HoverState => {
+    const scale = pixelSize / SIZE
+    return {
+      key,
+      x: pixelSize / 2 + Math.sin(angle) * RADIUS * scale,
+      y: pixelSize / 2 - Math.cos(angle) * RADIUS * scale,
+    }
+  }
+
+  const findSegmentAt = (fraction: number) => {
+    let cumulative = 0
+    return segments.find((segment) => {
+      cumulative += total === 0 ? 0 : segment.value / total
+      return fraction < cumulative
+    })
+  }
+
+  const handlePointerMove = (event: PointerEvent<SVGSVGElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    const scale = rect.width / SIZE
+    const dx = event.clientX - (rect.left + rect.width / 2)
+    const dy = event.clientY - (rect.top + rect.height / 2)
+    const isOnRing = Math.abs(Math.hypot(dx, dy) - RADIUS * scale) <= (STROKE / 2) * scale
+    const angle = (Math.atan2(dx, -dy) + FULL_TURN) % FULL_TURN
+    const segment = isOnRing ? findSegmentAt(angle / FULL_TURN) : undefined
+    setHover(segment ? markerAt(segment.key, angle, rect.width) : null)
+  }
+
+  const handleSegmentFocus = (key: string, arcMiddle: number) => (event: FocusEvent<SVGCircleElement>) => {
+    const pixelSize = chartRef.current?.getBoundingClientRect().width ?? event.currentTarget.getBoundingClientRect().width
+    setHover(markerAt(key, (arcMiddle / CIRCUMFERENCE) * FULL_TURN, pixelSize))
+  }
+
+  const clearHover = () => setHover(null)
 
   return (
     <div className={cn('flex flex-wrap items-center justify-center gap-x-6 gap-y-6', className)}>
-      <div className="relative size-44 shrink-0">
-        <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="size-full" role="img" aria-label={`${total} ${centerLabel}`}>
+      <div ref={chartRef} className="relative size-44 shrink-0">
+        <svg
+          viewBox={`0 0 ${SIZE} ${SIZE}`}
+          className="size-full"
+          role="img"
+          aria-label={`${total} ${centerLabel}`}
+          onPointerMove={handlePointerMove}
+          onPointerLeave={clearHover}
+        >
           <g transform={`rotate(-90 ${SIZE / 2} ${SIZE / 2})`} fill="none">
             {arcs.map(({ segment, length, offset }) => (
               <circle
@@ -54,15 +105,9 @@ export const DonutChart = ({ segments, centerLabel, className }: DonutChartProps
                 strokeDashoffset={-offset}
                 tabIndex={0}
                 aria-label={`${segment.label}: ${segment.value} (${toPercent(segment.value, total)}%)`}
-                className={cn(
-                  'cursor-default outline-none transition-opacity duration-150',
-                  segment.colorClass,
-                  activeKey && activeKey !== segment.key && 'opacity-40',
-                )}
-                onMouseEnter={activate(segment.key)}
-                onMouseLeave={deactivate}
-                onFocus={activate(segment.key)}
-                onBlur={deactivate}
+                className={cn('outline-none', segment.colorClass)}
+                onFocus={handleSegmentFocus(segment.key, offset + length / 2)}
+                onBlur={clearHover}
               />
             ))}
           </g>
@@ -73,30 +118,28 @@ export const DonutChart = ({ segments, centerLabel, className }: DonutChartProps
           <span className="text-caption text-text-secondary">{centerLabel}</span>
         </div>
 
-        {active && (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute top-2 left-3/4 z-10 flex min-w-32 flex-col gap-1 rounded-md border border-border-default bg-surface-default px-3 py-2 text-body-sm shadow-overlay"
-          >
-            <span className="flex items-center gap-2">
-              <span className={cn('size-2 rounded-full bg-current', active.colorClass)} />
-              {active.label}
-            </span>
-            <span className="text-body-strong tabular-nums">
-              {active.value} ({toPercent(active.value, total)}%)
-            </span>
-          </div>
+        {hover && hovered && (
+          <>
+            <ChartHoverMarker
+              className="absolute z-10"
+              style={{ left: hover.x - HOVER_MARKER_SIZE / 2, top: hover.y - HOVER_MARKER_SIZE / 2 }}
+            />
+            <ChartTooltip
+              className="absolute z-10"
+              style={{ left: hover.x + TOOLTIP_OFFSET, top: hover.y - HOVER_MARKER_SIZE / 2 }}
+            >
+              <ChartTooltipRow dotClass={cn('bg-current', hovered.colorClass)}>{hovered.label}</ChartTooltipRow>
+              <ChartTooltipRow large className="tabular-nums">
+                {hovered.value} ({toPercent(hovered.value, total)}%)
+              </ChartTooltipRow>
+            </ChartTooltip>
+          </>
         )}
       </div>
 
       <ul className="flex min-w-40 flex-1 flex-col gap-3">
         {segments.map((segment) => (
-          <li
-            key={segment.key}
-            className="flex items-center gap-3 text-body-sm"
-            onMouseEnter={activate(segment.key)}
-            onMouseLeave={deactivate}
-          >
+          <li key={segment.key} className="flex items-center gap-3 text-body-sm">
             <span className={cn('size-2.5 shrink-0 rounded-full bg-current', segment.colorClass)} />
             <span className="text-body-strong">{segment.label}</span>
             <span className="ml-auto tabular-nums">{segment.value}</span>
