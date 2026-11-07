@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "@fontsource/crimson-text/400.css";
-@import "@fontsource/crimson-text/600.css";
-@import "@fontsource/playfair-display/600.css";
+@import "@fontsource-variable/quicksand";
 @import "./tokens.css";
 @import "./theme.css";
 

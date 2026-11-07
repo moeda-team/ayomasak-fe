@@ -41,8 +41,8 @@
   --color-current: currentColor;
 
   /* Fonts (Typography · Default) */
-  --font-brand: "Playfair Display", ui-serif, Georgia, serif;
-  --font-ui: "Crimson Text", ui-serif, Georgia, serif;
+  --font-brand: "Quicksand Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-ui: "Quicksand Variable", ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-ui);
 
   /* Radius (Dimension · Default) */
