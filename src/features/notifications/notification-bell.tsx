@@ -31,7 +31,7 @@ export const NotificationBell = () => {
           <Button
             variant="link"
             size="sm"
-            className="h-auto p-0 text-body-sm text-text-brand"
+            className="-mr-2 text-body-sm"
             disabled={unreadCount === 0}
             onClick={markAllRead}
           >

@@ -1,6 +1,7 @@
 import type { DateRange } from 'react-day-picker'
 import { DateRangeFilter } from '@/components/shared/date-range-filter'
 import { MultiSelectFilter } from '@/components/shared/multi-select-filter'
+import { fromIsoDay, toIsoDay } from '@/lib/iso-day'
 import { SearchField } from '@/components/shared/search-field'
 import { SingleSelectFilter, type FilterOption } from '@/components/shared/single-select-filter'
 import { useRoleOptions } from './use-users'
@@ -11,15 +12,6 @@ const STATUS_OPTIONS: FilterOption<StatusFilter>[] = [
   { value: 'active', label: 'Active' },
   { value: 'non-active', label: 'Non Active' },
 ]
-
-/** Local calendar day as "YYYY-MM-DD", which is what the API compares against. */
-const toIsoDay = (date: Date) =>
-  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
-
-const fromIsoDay = (day: string) => {
-  const [year, month, date] = day.split('-').map(Number)
-  return new Date(year ?? 0, (month ?? 1) - 1, date ?? 1)
-}
 
 const toDateRange = ({ joinedFrom, joinedTo }: UserListParams): DateRange | undefined =>
   joinedFrom ? { from: fromIsoDay(joinedFrom), to: joinedTo ? fromIsoDay(joinedTo) : undefined } : undefined

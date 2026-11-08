@@ -57,7 +57,7 @@ export const DateRangeFilter = ({ label, emptyLabel, value, onApply }: DateRange
           defaultMonth={draft?.from}
         />
         <div className="flex items-center justify-between border-t border-border-default p-3">
-          <Button type="button" variant="link" size="sm" className="px-0 text-text-brand" onClick={() => commit(undefined)}>
+          <Button type="button" variant="link" size="sm" onClick={() => commit(undefined)}>
             Clear
           </Button>
           <Button type="button" size="sm" disabled={!draft?.from} onClick={() => commit(draft)}>

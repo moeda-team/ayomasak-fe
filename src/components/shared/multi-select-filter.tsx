@@ -99,7 +99,7 @@ export const MultiSelectFilter = <TValue extends string>({
           })}
         </ul>
         <div className="flex items-center justify-between border-t border-border-default p-3">
-          <Button type="button" variant="link" size="sm" className="px-0 text-text-brand" onClick={() => commit([])}>
+          <Button type="button" variant="link" size="sm" onClick={() => commit([])}>
             Clear
           </Button>
           <Button type="button" size="sm" onClick={() => commit(draft)}>

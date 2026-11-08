@@ -4,6 +4,7 @@ import { EmptyState } from '@/components/shared/empty-state'
 import { InitialsAvatar } from '@/components/shared/initials-avatar'
 import { Panel } from '@/components/shared/panel'
 import { QueryBoundary } from '@/components/shared/query-boundary'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { formatRelativeTime } from '@/lib/format-relative-time'
 import { useNeedsAttention } from './use-dashboard-queries'
@@ -18,9 +19,9 @@ export const NeedsAttentionCard = ({ className }: { className?: string }) => {
       title="Needs Attention"
       className={className}
       headerAction={
-        <Link to="/review-queue" className="rounded-sm text-body-sm text-text-brand hover:underline">
-          View All
-        </Link>
+        <Button asChild variant="link" size="sm" className="-mr-2">
+          <Link to="/review-queue">View All</Link>
+        </Button>
       }
     >
       <QueryBoundary
