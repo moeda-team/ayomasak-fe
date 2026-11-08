@@ -10,11 +10,13 @@ type FormFieldProps = {
   label: string
   isRequired?: boolean
   error?: string
+  /** Help text under the control; the error replaces it. */
+  hint?: string
   children: ReactNode
   className?: string
 }
 
-export const FormField = ({ htmlFor, label, isRequired = false, error, children, className }: FormFieldProps) => (
+export const FormField = ({ htmlFor, label, isRequired = false, error, hint, children, className }: FormFieldProps) => (
   <div className={cn('flex flex-col gap-2', className)}>
     <Label htmlFor={htmlFor} className="text-body-sm">
       {label}
@@ -28,6 +30,11 @@ export const FormField = ({ htmlFor, label, isRequired = false, error, children,
     {error && (
       <p id={`${htmlFor}-error`} role="alert" className="text-caption text-text-danger">
         {error}
+      </p>
+    )}
+    {!error && hint && (
+      <p id={`${htmlFor}-hint`} className="text-caption text-text-secondary">
+        {hint}
       </p>
     )}
   </div>
