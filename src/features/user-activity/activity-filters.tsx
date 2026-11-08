@@ -3,8 +3,8 @@ import { DateRangeFilter } from '@/components/shared/date-range-filter'
 import { MultiSelectFilter } from '@/components/shared/multi-select-filter'
 import { SearchField } from '@/components/shared/search-field'
 import { SingleSelectFilter, type FilterOption } from '@/components/shared/single-select-filter'
-import { ROLE_LABEL } from '@/features/user-management/user-roles'
-import { ROLE_IDS, type RoleId } from '@/features/user-management/user-types'
+import { listRoleRecords } from '@/features/user-management/role-registry'
+import type { RoleId } from '@/features/user-management/user-types'
 import { ACTION_OPTIONS } from './action-badge'
 import type { ActionFilter, ActivityListParams } from './activity-types'
 import { useActivityRoleCounts, useActors } from './use-activity'
@@ -62,7 +62,7 @@ export const ActivityFilters = ({ searchInput, onSearchInputChange, params, onCh
       <MultiSelectFilter<RoleId>
         label="Role"
         searchPlaceholder="Search role"
-        options={ROLE_IDS.map((id) => ({ value: id, label: ROLE_LABEL[id], count: roleCounts?.[id] }))}
+        options={listRoleRecords().map((role) => ({ value: role.id, label: role.name, count: roleCounts?.[role.id] ?? 0 }))}
         value={params.roleIds}
         onApply={(roleIds) => onChange({ roleIds })}
       />

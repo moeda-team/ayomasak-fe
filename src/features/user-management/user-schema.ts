@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { ROLE_IDS } from './user-types'
 
 const PHONE_SEPARATORS = /[\s-]/g
 const INDONESIAN_PHONE = /^\+62\d{9,13}$/
@@ -15,7 +14,7 @@ export const userFormSchema = z.object({
     .string()
     .trim()
     .refine((value) => INDONESIAN_PHONE.test(value.replace(PHONE_SEPARATORS, '')), 'Enter a number like +62 812 3456 7890'),
-  roleId: z.string().min(1, 'Select a role').pipe(z.enum(ROLE_IDS)),
+  roleId: z.string().min(1, 'Select a role'),
   notes: z.string().trim().max(280, 'Keep notes under 280 characters'),
 })
 

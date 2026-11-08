@@ -1,5 +1,5 @@
 import { ROLE_IDS, type RoleId } from '@/features/user-management/user-types'
-import { ROLE_LABEL } from '@/features/user-management/user-roles'
+import { getRoleName } from '@/features/user-management/role-registry'
 import type {
   Activity,
   ActivityAction,
@@ -37,7 +37,7 @@ const TARGETS = [
   { name: 'Sari Wulandari', email: 'sari@mail.com' },
 ]
 
-const ROLE_PERMISSIONS: Record<RoleId, string[]> = {
+const ROLE_PERMISSIONS: Record<string, string[]> = {
   'super-admin': ['Full access'],
   'content-manager': ['View Dashboard', 'Manage Recipes', 'Manage Master Data', 'View Data Quality'],
   reviewer: ['View Dashboard', 'Review Recipes', 'View Data Quality'],
@@ -56,7 +56,7 @@ const snapshot = (target: { name: string; email: string }, roleId: RoleId): User
   ...target,
   roleId,
   status: 'active',
-  permissions: ROLE_PERMISSIONS[roleId],
+  permissions: ROLE_PERMISSIONS[roleId] ?? [],
 })
 
 const pick = <TItem>(items: TItem[], index: number): TItem => items[index % items.length] as TItem
@@ -69,7 +69,7 @@ const buildSeed = (index: number): Seed => {
   const toRole = pick([...ROLE_IDS], index + 3)
   const details = {
     created: 'Created a new user account',
-    updated: `Updated role from ${ROLE_LABEL[fromRole]} to ${ROLE_LABEL[toRole]}`,
+    updated: `Updated role from ${getRoleName(fromRole)} to ${getRoleName(toRole)}`,
     deleted: 'Deleted user account',
   }[action]
 
@@ -128,7 +128,7 @@ export const fetchActors = async (): Promise<ActivityActor[]> => {
 export const fetchActivityRoleCounts = async (): Promise<Record<RoleId, number>> => {
   await wait()
   const counts = Object.fromEntries(ROLE_IDS.map((id) => [id, 0])) as Record<RoleId, number>
-  seeds.forEach(({ activity }) => (counts[activity.actor.roleId] += 1))
+  seeds.forEach(({ activity }) => (counts[activity.actor.roleId] = (counts[activity.actor.roleId] ?? 0) + 1))
   return counts
 }
 

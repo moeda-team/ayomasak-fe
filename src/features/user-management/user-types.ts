@@ -1,3 +1,4 @@
+/** The roles that exist from the start; more can be created at runtime. */
 export const ROLE_IDS = [
   'super-admin',
   'content-manager',
@@ -7,7 +8,8 @@ export const ROLE_IDS = [
   'ops-lead',
 ] as const
 
-export type RoleId = (typeof ROLE_IDS)[number]
+/** Roles are created at runtime, so an id is any string. */
+export type RoleId = string
 
 export type UserStatus = 'active' | 'non-active'
 

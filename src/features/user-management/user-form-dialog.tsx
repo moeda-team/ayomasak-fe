@@ -6,11 +6,9 @@ import { FormField, IconInput } from '@/components/shared/form-field'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Textarea } from '@/components/ui/textarea'
-import { ROLE_LABEL } from './user-roles'
+import { useRoleOptions } from './use-users'
 import { EMPTY_USER_FORM, userFormSchema, type UserFormInput } from './user-schema'
-import { ROLE_IDS, type RoleId, type User, type UserFormValues } from './user-types'
-
-const ROLE_OPTIONS = ROLE_IDS.map((roleId) => ({ value: roleId, label: ROLE_LABEL[roleId] }))
+import type { RoleId, User, UserFormValues } from './user-types'
 
 type UserFormDialogProps = {
   open: boolean
@@ -48,6 +46,9 @@ const UserForm = ({ user, isPending, onSubmit, onCancel }: UserFormProps) => {
     resolver: zodResolver(userFormSchema),
     defaultValues: toFormInput(user),
   })
+
+  const { data: roles = [] } = useRoleOptions()
+  const roleOptions = roles.map((role) => ({ value: role.id, label: role.label }))
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -99,7 +100,7 @@ const UserForm = ({ user, isPending, onSubmit, onCancel }: UserFormProps) => {
                 id="user-role"
                 icon={ShieldCheckIcon}
                 value={field.value as RoleId | ''}
-                options={ROLE_OPTIONS}
+                options={roleOptions}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
                 placeholder="Select role"

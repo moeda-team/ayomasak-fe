@@ -1,5 +1,5 @@
-import { ROLE_IDS, type RoleOption, type User, type UserFormValues, type UserListParams, type UserListResult, type UserMetric } from './user-types'
-import { ROLE_LABEL } from './user-roles'
+import { type RoleOption, type User, type UserFormValues, type UserListParams, type UserListResult, type UserMetric } from './user-types'
+import { listRoleRecords } from './role-registry'
 
 /**
  * MOCK: replace each function with a real request. The signatures are what the hooks depend on.
@@ -111,7 +111,7 @@ export const fetchUsers = async (params: UserListParams): Promise<UserListResult
 
 export const fetchRoleOptions = async (): Promise<RoleOption[]> => {
   await wait()
-  return ROLE_IDS.map((id) => ({ id, label: ROLE_LABEL[id], userCount: db.filter((user) => user.roleId === id).length }))
+  return listRoleRecords().map((role) => ({ id: role.id, label: role.name, userCount: db.filter((user) => user.roleId === role.id).length }))
 }
 
 const TREND = {
@@ -169,3 +169,30 @@ export const deleteUsers = async (ids: string[]): Promise<void> => {
   targets.forEach((user) => db.splice(db.indexOf(user), 1))
 }
 
+/** Member lookups and moves used by Role and Permission; they share the user table above. */
+export type RoleMember = Pick<User, 'id' | 'fullName' | 'email' | 'roleId'>
+
+const toMember = ({ id, fullName, email, roleId }: User): RoleMember => ({ id, fullName, email, roleId })
+
+export const countUsersInRole = (roleId: string) => db.filter((user) => user.roleId === roleId).length
+
+export const listRoleMembers = (roleId: string): RoleMember[] => db.filter((user) => user.roleId === roleId).map(toMember)
+
+/** Everyone who is not in `roleId` yet, optionally narrowed by name or email. */
+export const listUsersOutsideRole = (roleId: string, search: string): RoleMember[] =>
+  db.filter((user) => user.roleId !== roleId && matchesSearch(user, search)).map(toMember)
+
+export const moveRoleMembers = (fromRoleId: string, toRoleId: string) => {
+  db.forEach((user) => {
+    if (user.roleId === fromRoleId) user.roleId = toRoleId
+  })
+}
+
+export const setUsersRole = (userIds: string[], roleId: string) => {
+  db.forEach((user) => {
+    if (userIds.includes(user.id)) user.roleId = roleId
+  })
+}
+
+
+export const removeUserFromRole = (userId: string) => setUsersRole([userId], '')

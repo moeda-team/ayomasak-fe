@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
@@ -11,6 +12,8 @@ type ConfirmDialogProps = {
   pendingLabel: string
   isPending: boolean
   onConfirm: () => void
+  /** Extra content under the description, e.g. a note about the consequence. */
+  children?: ReactNode
 }
 
 /** Confirmation for a destructive action. It cannot be dismissed while the action is running. */
@@ -23,6 +26,7 @@ export const ConfirmDialog = ({
   pendingLabel,
   isPending,
   onConfirm,
+  children,
 }: ConfirmDialogProps) => (
   <Dialog open={open} onOpenChange={(next) => !isPending && onOpenChange(next)}>
     <DialogContent className="gap-0 p-0 sm:max-w-md" showCloseButton={false}>
@@ -30,6 +34,7 @@ export const ConfirmDialog = ({
         <DialogTitle className="text-heading-3">{title}</DialogTitle>
         <DialogDescription className="text-body text-text-secondary">{description}</DialogDescription>
       </DialogHeader>
+      {children && <div className="px-6 pb-2">{children}</div>}
       <DialogFooter className="flex-row justify-end gap-3 px-6 pt-2 pb-6">
         <Button variant="outline" disabled={isPending} onClick={() => onOpenChange(false)}>
           Cancel

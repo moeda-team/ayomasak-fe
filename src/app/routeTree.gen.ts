@@ -20,10 +20,11 @@ import { Route as AppMasterEquipmentRouteImport } from './routes/_app/master-equ
 import { Route as AppModerationQueueRouteImport } from './routes/_app/moderation-queue'
 import { Route as AppRecipesRouteImport } from './routes/_app/recipes'
 import { Route as AppReviewQueueRouteImport } from './routes/_app/review-queue'
-import { Route as AppRolePermissionRouteImport } from './routes/_app/role-permission'
 import { Route as AppSystemConfigurationRouteImport } from './routes/_app/system-configuration'
 import { Route as AppUserActivityRouteImport } from './routes/_app/user-activity'
 import { Route as AppUserListRouteImport } from './routes/_app/user-list'
+import { Route as AppRolePermissionIndexRouteImport } from './routes/_app/role-permission/index'
+import { Route as AppRolePermissionRoleIdRouteImport } from './routes/_app/role-permission/$roleId'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -79,11 +80,6 @@ const AppReviewQueueRoute = AppReviewQueueRouteImport.update({
   path: '/review-queue',
   getParentRoute: () => AppRoute,
 } as any)
-const AppRolePermissionRoute = AppRolePermissionRouteImport.update({
-  id: '/role-permission',
-  path: '/role-permission',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppSystemConfigurationRoute = AppSystemConfigurationRouteImport.update({
   id: '/system-configuration',
   path: '/system-configuration',
@@ -99,6 +95,16 @@ const AppUserListRoute = AppUserListRouteImport.update({
   path: '/user-list',
   getParentRoute: () => AppRoute,
 } as any)
+const AppRolePermissionIndexRoute = AppRolePermissionIndexRouteImport.update({
+  id: '/role-permission/',
+  path: '/role-permission/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRolePermissionRoleIdRoute = AppRolePermissionRoleIdRouteImport.update({
+  id: '/role-permission/$roleId',
+  path: '/role-permission/$roleId',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
@@ -111,10 +117,11 @@ export interface FileRoutesByFullPath {
   '/moderation-queue': typeof AppModerationQueueRoute
   '/recipes': typeof AppRecipesRoute
   '/review-queue': typeof AppReviewQueueRoute
-  '/role-permission': typeof AppRolePermissionRoute
   '/system-configuration': typeof AppSystemConfigurationRoute
   '/user-activity': typeof AppUserActivityRoute
   '/user-list': typeof AppUserListRoute
+  '/role-permission/$roleId': typeof AppRolePermissionRoleIdRoute
+  '/role-permission/': typeof AppRolePermissionIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -126,11 +133,12 @@ export interface FileRoutesByTo {
   '/moderation-queue': typeof AppModerationQueueRoute
   '/recipes': typeof AppRecipesRoute
   '/review-queue': typeof AppReviewQueueRoute
-  '/role-permission': typeof AppRolePermissionRoute
   '/system-configuration': typeof AppSystemConfigurationRoute
   '/user-activity': typeof AppUserActivityRoute
   '/user-list': typeof AppUserListRoute
   '/': typeof AppIndexRoute
+  '/role-permission/$roleId': typeof AppRolePermissionRoleIdRoute
+  '/role-permission': typeof AppRolePermissionIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -144,11 +152,12 @@ export interface FileRoutesById {
   '/_app/moderation-queue': typeof AppModerationQueueRoute
   '/_app/recipes': typeof AppRecipesRoute
   '/_app/review-queue': typeof AppReviewQueueRoute
-  '/_app/role-permission': typeof AppRolePermissionRoute
   '/_app/system-configuration': typeof AppSystemConfigurationRoute
   '/_app/user-activity': typeof AppUserActivityRoute
   '/_app/user-list': typeof AppUserListRoute
   '/_app/': typeof AppIndexRoute
+  '/_app/role-permission/$roleId': typeof AppRolePermissionRoleIdRoute
+  '/_app/role-permission/': typeof AppRolePermissionIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -163,10 +172,11 @@ export interface FileRouteTypes {
     | '/moderation-queue'
     | '/recipes'
     | '/review-queue'
-    | '/role-permission'
     | '/system-configuration'
     | '/user-activity'
     | '/user-list'
+    | '/role-permission/$roleId'
+    | '/role-permission/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -178,11 +188,12 @@ export interface FileRouteTypes {
     | '/moderation-queue'
     | '/recipes'
     | '/review-queue'
-    | '/role-permission'
     | '/system-configuration'
     | '/user-activity'
     | '/user-list'
     | '/'
+    | '/role-permission/$roleId'
+    | '/role-permission'
   id:
     | '__root__'
     | '/_app'
@@ -195,11 +206,12 @@ export interface FileRouteTypes {
     | '/_app/moderation-queue'
     | '/_app/recipes'
     | '/_app/review-queue'
-    | '/_app/role-permission'
     | '/_app/system-configuration'
     | '/_app/user-activity'
     | '/_app/user-list'
     | '/_app/'
+    | '/_app/role-permission/$roleId'
+    | '/_app/role-permission/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -286,13 +298,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppReviewQueueRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/role-permission': {
-      id: '/_app/role-permission'
-      path: '/role-permission'
-      fullPath: '/role-permission'
-      preLoaderRoute: typeof AppRolePermissionRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/system-configuration': {
       id: '/_app/system-configuration'
       path: '/system-configuration'
@@ -314,6 +319,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppUserListRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/role-permission/': {
+      id: '/_app/role-permission/'
+      path: '/role-permission'
+      fullPath: '/role-permission/'
+      preLoaderRoute: typeof AppRolePermissionIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/role-permission/$roleId': {
+      id: '/_app/role-permission/$roleId'
+      path: '/role-permission/$roleId'
+      fullPath: '/role-permission/$roleId'
+      preLoaderRoute: typeof AppRolePermissionRoleIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -326,11 +345,12 @@ interface AppRouteChildren {
   AppModerationQueueRoute: typeof AppModerationQueueRoute
   AppRecipesRoute: typeof AppRecipesRoute
   AppReviewQueueRoute: typeof AppReviewQueueRoute
-  AppRolePermissionRoute: typeof AppRolePermissionRoute
   AppSystemConfigurationRoute: typeof AppSystemConfigurationRoute
   AppUserActivityRoute: typeof AppUserActivityRoute
   AppUserListRoute: typeof AppUserListRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppRolePermissionRoleIdRoute: typeof AppRolePermissionRoleIdRoute
+  AppRolePermissionIndexRoute: typeof AppRolePermissionIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -342,11 +362,12 @@ const AppRouteChildren: AppRouteChildren = {
   AppModerationQueueRoute: AppModerationQueueRoute,
   AppRecipesRoute: AppRecipesRoute,
   AppReviewQueueRoute: AppReviewQueueRoute,
-  AppRolePermissionRoute: AppRolePermissionRoute,
   AppSystemConfigurationRoute: AppSystemConfigurationRoute,
   AppUserActivityRoute: AppUserActivityRoute,
   AppUserListRoute: AppUserListRoute,
   AppIndexRoute: AppIndexRoute,
+  AppRolePermissionRoleIdRoute: AppRolePermissionRoleIdRoute,
+  AppRolePermissionIndexRoute: AppRolePermissionIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
