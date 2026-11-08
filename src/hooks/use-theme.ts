@@ -14,7 +14,7 @@ const readStoredTheme = (): Theme | null => {
   }
 }
 
-const readSystemTheme = (): Theme => (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+const DEFAULT_THEME: Theme = 'dark'
 
 const getTheme = (): Theme => (document.documentElement.classList.contains('dark') ? 'dark' : 'light')
 
@@ -23,8 +23,8 @@ const applyTheme = (theme: Theme) => {
   document.documentElement.style.colorScheme = theme
 }
 
-/** Applies the saved (or system) theme. Called once at startup; index.html does the same earlier to avoid a flash. */
-export const initTheme = () => applyTheme(readStoredTheme() ?? readSystemTheme())
+/** Applies the saved theme, or dark when the user has not chosen one. Called once at startup; index.html does the same earlier to avoid a flash. */
+export const initTheme = () => applyTheme(readStoredTheme() ?? DEFAULT_THEME)
 
 const setTheme = (theme: Theme) => {
   applyTheme(theme)

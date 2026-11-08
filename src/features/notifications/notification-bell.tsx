@@ -39,7 +39,7 @@ export const NotificationBell = () => {
           </Button>
         </header>
 
-        <div className="max-h-96 overflow-y-auto">
+        <div className="max-h-96 overflow-y-auto overscroll-contain">
           <QueryBoundary
             isLoading={isLoading}
             error={error}

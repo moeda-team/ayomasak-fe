@@ -1,7 +1,11 @@
 /*
  * Raos design tokens — source: FigCraft "Raos" (variable collections Semantic · Light/Dark,
  * Dimension · Default, Typography · Default; styles Raos/Elevation/*, Raos/Focus Ring).
- * Names mirror the Figma variables. Do not edit values here without changing Figma first.
+ * Names mirror the Figma variables.
+ *
+ * DEVIATION FROM FIGMA (approved): the surface, border, elevation and dark chart values below follow a darker,
+ * layered look (canvas behind raised cards) that Figma does not have yet. Brand indigo is unchanged.
+ * Update Figma to match before treating Figma as the source for these values again.
  */
 
 :root {
@@ -15,13 +19,14 @@
   --text-warning: #8f6203;
   --text-danger: #bc1d1d;
 
+  --surface-canvas: #f6f6fb;
   --surface-default: #ffffff;
-  --surface-subtle: #fafafa;
+  --surface-subtle: #f8f8fc;
   --surface-brand-subtle: #ededfc;
   --surface-inverse: #121212;
 
-  --border-default: #eaeaea;
-  --border-strong: #bdbdbd;
+  --border-default: #e8e8f0;
+  --border-strong: #c4c4d0;
   --border-focus: #4f46e5;
 
   --action-primary: #4f46e5;
@@ -60,7 +65,9 @@
   --avatar-5: #65a30d;
 
   /* Raos/Elevation/* */
-  --elevation-raised: 0 1px 5px 0 rgb(0 0 0 / 0.05);
+  --elevation-raised: 0 1px 2px 0 rgb(20 20 50 / 0.04), 0 4px 16px 0 rgb(20 20 50 / 0.05);
+  /* Card surface fill; the dark theme adds a faint top-lit gradient. */
+  --card-fill: var(--surface-default);
   --elevation-overlay: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --elevation-modal: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.08);
   /* Glow around the chart hover marker (Figma: 4px blur, EDEDFC at 60%) */
@@ -71,22 +78,23 @@
 
 .dark {
   /* Semantic · Dark */
-  --text-primary: #fafafa;
-  --text-secondary: #a3a3a3;
-  --text-disabled: #5c5c5c;
+  --text-primary: #f5f5fa;
+  --text-secondary: #9d9db0;
+  --text-disabled: #5f5f72;
   --text-inverse: #ffffff;
   --text-brand: #8983ee;
   --text-success: #45b56e;
   --text-warning: #d5a136;
   --text-danger: #e66565;
 
-  --surface-default: #181818;
-  --surface-subtle: #1f1f1f;
-  --surface-brand-subtle: #24224a;
-  --surface-inverse: #333333;
+  --surface-canvas: #0a0a10;
+  --surface-default: #13131b;
+  --surface-subtle: #1a1a24;
+  --surface-brand-subtle: rgb(91 83 232 / 0.18);
+  --surface-inverse: #2a2a36;
 
-  --border-default: #2e2e2e;
-  --border-strong: #4a4a4a;
+  --border-default: rgb(255 255 255 / 0.08);
+  --border-strong: rgb(255 255 255 / 0.16);
   --border-focus: #726bea;
 
   --action-primary: #5b53e8;
@@ -95,14 +103,30 @@
   --action-primary-disabled: #33305f;
 
   --status-success: #45b56e;
-  --status-success-subtle: #182d20;
+  --status-success-subtle: rgb(69 181 110 / 0.14);
   --status-warning: #d5a136;
-  --status-warning-subtle: #332915;
+  --status-warning-subtle: rgb(213 161 54 / 0.14);
   --status-danger: #e05a5a;
-  --status-danger-subtle: #331919;
+  --status-danger-subtle: rgb(224 90 90 / 0.14);
   --status-info: #5182ef;
-  --status-info-subtle: #1a2338;
+  --status-info-subtle: rgb(81 130 239 / 0.14);
 
   --brand-primary: #5b53e8;
 
+  /* Chart marks: strongest = most luminous on a dark canvas, so the order is the reverse of light. */
+  --chart-ink: #b9b5f8;
+  --chart-deep: #9a95f4;
+  --chart-strong: #8179f0;
+  --chart-base: #6b63ee;
+  --chart-mid: #5b54c4;
+  --chart-soft: #4a45a8;
+  --chart-faint: #35318a;
+  --chart-track: rgb(255 255 255 / 0.1);
+
+  --card-fill: linear-gradient(180deg, rgb(255 255 255 / 0.05) 0%, rgb(255 255 255 / 0.015) 100%), var(--surface-default);
+
+  --elevation-raised: inset 0 1px 0 0 rgb(255 255 255 / 0.04), 0 8px 24px 0 rgb(0 0 0 / 0.3);
+  --elevation-overlay: 0 12px 32px 0 rgb(0 0 0 / 0.5);
+  --elevation-modal: 0 24px 64px 0 rgb(0 0 0 / 0.6);
+  --elevation-marker: 0 0 6px 0 rgb(137 131 238 / 0.6);
 }

@@ -15,7 +15,7 @@ export const AppTopbar = () => {
   return (
     <header
       className={cn(
-        'sticky top-0 z-30 flex h-17 shrink-0 items-center gap-3 border-b border-border-default bg-surface-default px-4 transition-shadow duration-200 ease-out',
+        'sticky top-0 z-30 flex h-17 shrink-0 items-center gap-3 border-b border-border-default bg-surface-canvas/85 px-4 backdrop-blur-md transition-shadow duration-200 ease-out',
         isScrolled && 'shadow-overlay',
       )}
     >

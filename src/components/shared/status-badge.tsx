@@ -9,6 +9,8 @@ const statusBadgeVariants = cva('border-transparent text-caption', {
       published: 'bg-status-info-subtle text-status-info',
       verified: 'bg-status-success-subtle text-text-success',
       inactive: 'bg-surface-subtle text-text-secondary',
+      active: 'bg-status-success-subtle text-text-success',
+      'non-active': 'bg-status-danger-subtle text-text-danger',
     },
   },
 })
@@ -20,6 +22,8 @@ const STATUS_LABELS: Record<RecordStatus, string> = {
   published: 'Published',
   verified: 'Verified',
   inactive: 'Inactive',
+  active: 'Active',
+  'non-active': 'Non Active',
 }
 
 type StatusBadgeProps = {

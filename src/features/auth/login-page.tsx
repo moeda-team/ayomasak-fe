@@ -32,7 +32,7 @@ export const LoginPage = () => {
   const { redirect } = loginRoute.useSearch()
 
   return (
-    <main className="grid min-h-svh grid-cols-1 max-lg:content-start gap-6 bg-surface-default p-4 sm:p-8 lg:grid-cols-[minmax(26rem,2fr)_minmax(0,3fr)] lg:grid-rows-[auto_1fr] lg:gap-x-0 lg:gap-y-0 lg:p-0">
+    <main className="grid min-h-svh grid-cols-1 max-lg:content-start gap-6 bg-surface-canvas p-4 sm:p-8 lg:grid-cols-[minmax(26rem,2fr)_minmax(0,3fr)] lg:grid-rows-[auto_1fr] lg:gap-x-0 lg:gap-y-0 lg:p-0">
       <img
         src="/raos-logo.svg"
         alt="Raos"

@@ -11,8 +11,18 @@
   * {
     @apply border-border-default;
   }
+  html {
+    /* Reserve the scrollbar track so the layout does not shift when a page grows past one screen or a dialog locks scroll. */
+    scrollbar-gutter: stable;
+  }
   body {
-    @apply bg-surface-default font-ui text-body text-text-primary antialiased;
+    @apply bg-surface-canvas font-ui text-body text-text-primary antialiased;
+  }
+  .dark body {
+    /* Soft violet glow at the top of the page, fixed so it does not scroll away. */
+    background-image: radial-gradient(70rem 26rem at 60% -12rem, rgb(91 83 232 / 0.2), transparent 70%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
   :focus-visible {
     @apply shadow-focus-ring outline-none;

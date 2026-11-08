@@ -19,6 +19,11 @@ type DataTableProps<TData extends RowData> = {
   error?: Error | null
   onRetry?: () => void
   emptyState?: ReactNode
+  /** Dims the rows while a new page or filter is loading over the old data. */
+  isRefreshing?: boolean
+  /** Stable id per row, so row state survives re-sorting and paging. */
+  getRowId?: (row: TData) => string
+  rowClassName?: (row: TData) => string | undefined
 }
 
 export const DataTable = <TData extends RowData>({
@@ -28,14 +33,17 @@ export const DataTable = <TData extends RowData>({
   error = null,
   onRetry,
   emptyState = <EmptyState title="No data yet" description="There is nothing to show here." />,
+  isRefreshing = false,
+  getRowId,
+  rowClassName,
 }: DataTableProps<TData>) => {
-  const table = useTable({ features, columns, data })
+  const table = useTable({ features, columns, data, getRowId })
 
   if (error) return <ErrorState description={error.message} onRetry={onRetry} />
   if (!isLoading && data.length === 0) return emptyState
 
   return (
-    <div className="overflow-hidden rounded-lg border border-border-default bg-surface-default shadow-raised">
+    <div className="surface-card overflow-hidden">
       <Table>
         <TableHeader className="bg-surface-subtle">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -48,7 +56,7 @@ export const DataTable = <TData extends RowData>({
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody>
+        <TableBody className={isRefreshing ? "opacity-60 transition-opacity" : "transition-opacity"}>
           {isLoading
             ? Array.from({ length: SKELETON_ROW_COUNT }, (_, rowIndex) => (
                 <TableRow key={rowIndex}>
@@ -60,7 +68,7 @@ export const DataTable = <TData extends RowData>({
                 </TableRow>
               ))
             : table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} className={rowClassName?.(row.original)}>
                   {row.getAllCells().map((cell) => (
                     <TableCell key={cell.id} className="text-body-sm">
                       <table.FlexRender cell={cell} />

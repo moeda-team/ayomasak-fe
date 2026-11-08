@@ -37,7 +37,7 @@ export const MetricCard = ({
   trendTone,
   action,
 }: MetricCardProps) => (
-  <article className="flex min-w-0 flex-col overflow-hidden rounded-lg border border-border-default bg-surface-default shadow-raised">
+  <article className="surface-card flex min-w-0 flex-col overflow-hidden">
     <header className="flex items-center justify-between gap-3 border-b border-border-default px-4 py-3">
       <div className="flex min-w-0 items-center gap-3">
         <span

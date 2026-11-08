@@ -3,6 +3,9 @@ import { cn } from '@/lib/utils'
 /** Full class names so Tailwind can see them. */
 const AVATAR_COLOR_CLASSES = ['bg-avatar-1', 'bg-avatar-2', 'bg-avatar-3', 'bg-avatar-4', 'bg-avatar-5'] as const
 
+/** Same key, same color on every visit. */
+export const toColorIndex = (key: string) => [...key].reduce((sum, character) => sum + character.charCodeAt(0), 0)
+
 /** "Nasi Goreng" and "Gado-gado" use one letter per word; a single word uses its first two letters. */
 const toInitials = (name: string) => {
   const words = name.split(/[\s-]+/).filter(Boolean)

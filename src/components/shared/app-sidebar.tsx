@@ -20,7 +20,7 @@ import { NAV_GROUPS, isNavParent, type NavLeaf, type NavParent } from '@/feature
 import { cn } from '@/lib/utils'
 
 const ACTIVE_CLASS =
-  'data-[active=true]:bg-action-primary data-[active=true]:text-text-inverse data-[active=true]:hover:bg-action-primary-hover data-[active=true]:hover:text-text-inverse'
+  'data-[active=true]:bg-surface-brand-subtle data-[active=true]:text-text-brand data-[active=true]:ring-1 data-[active=true]:ring-border-focus/30 data-[active=true]:hover:bg-surface-brand-subtle data-[active=true]:hover:text-text-brand'
 
 /** Icon rail buttons are wider and taller than shadcn's default 32px square. */
 const BUTTON_CLASS = cn(

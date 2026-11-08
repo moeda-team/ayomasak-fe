@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Raos Admin</title>
     <script>
+      // Dark is the default; only an explicit saved "light" turns it off.
+      var dark = true;
       try {
-        var stored = localStorage.getItem("raos.theme");
-        var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.classList.toggle("dark", dark);
-        document.documentElement.style.colorScheme = dark ? "dark" : "light";
+        dark = localStorage.getItem("raos.theme") !== "light";
       } catch (error) {}
+      document.documentElement.classList.toggle("dark", dark);
+      document.documentElement.style.colorScheme = dark ? "dark" : "light";
     </script>
   </head>
   <body>

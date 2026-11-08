@@ -11,6 +11,7 @@
   --color-text-warning: var(--text-warning);
   --color-text-danger: var(--text-danger);
 
+  --color-surface-canvas: var(--surface-canvas);
   --color-surface-default: var(--surface-default);
   --color-surface-subtle: var(--surface-subtle);
   --color-surface-brand-subtle: var(--surface-brand-subtle);
@@ -204,7 +205,7 @@
 }
 
 @theme inline {
-  --color-sidebar: var(--surface-subtle);
+  --color-sidebar: var(--surface-canvas);
   --color-sidebar-foreground: var(--text-primary);
   --color-sidebar-primary: var(--action-primary);
   --color-sidebar-primary-foreground: var(--text-inverse);
@@ -212,4 +213,12 @@
   --color-sidebar-accent-foreground: var(--text-brand);
   --color-sidebar-border: var(--border-default);
   --color-sidebar-ring: var(--border-focus);
+}
+
+/* Raised surface for dashboard cards, tables and filter bars: fill, hairline border, 16px corners, soft elevation. */
+@utility surface-card {
+  background: var(--card-fill);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--elevation-raised);
 }

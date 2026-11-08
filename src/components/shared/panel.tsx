@@ -13,7 +13,7 @@ type PanelProps = {
 export const Panel = ({ title, headerAction, children, className, bodyClassName }: PanelProps) => (
   <section
     className={cn(
-      'flex min-w-0 flex-col overflow-hidden rounded-lg border border-border-default bg-surface-default shadow-raised',
+      'surface-card flex min-w-0 flex-col overflow-hidden',
       className,
     )}
   >

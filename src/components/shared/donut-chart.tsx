@@ -26,9 +26,22 @@ type HoverState = {
 const SIZE = 200
 const STROKE = 30
 const RADIUS = (SIZE - STROKE) / 2
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS
+const CENTER = SIZE / 2
 const FULL_TURN = Math.PI * 2
 const TOOLTIP_OFFSET = 12
+
+/** Point on the ring's centerline at `angle` (radians, clockwise from 12 o'clock). */
+const pointOnRing = (angle: number) => ({
+  x: CENTER + Math.sin(angle) * RADIUS,
+  y: CENTER - Math.cos(angle) * RADIUS,
+})
+
+/** Arc path from `start` over `sweep` radians; stroked with butt caps, its ends are exactly radial. */
+const arcPath = (start: number, sweep: number) => {
+  const from = pointOnRing(start)
+  const to = pointOnRing(start + sweep)
+  return `M ${from.x} ${from.y} A ${RADIUS} ${RADIUS} 0 ${sweep > Math.PI ? 1 : 0} 1 ${to.x} ${to.y}`
+}
 
 const toPercent = (value: number, total: number) => (total === 0 ? 0 : Math.round((value / total) * 100))
 
@@ -38,11 +51,11 @@ export const DonutChart = ({ segments, centerLabel, className }: DonutChartProps
   const total = segments.reduce((sum, segment) => sum + segment.value, 0)
   const hovered = segments.find((segment) => segment.key === hover?.key)
 
-  const arcs = segments.reduce<{ segment: DonutSegment; length: number; offset: number }[]>((placed, segment) => {
+  const arcs = segments.reduce<{ segment: DonutSegment; start: number; sweep: number }[]>((placed, segment) => {
     const previous = placed.at(-1)
-    const offset = previous ? previous.offset + previous.length : 0
-    const length = total === 0 ? 0 : (segment.value / total) * CIRCUMFERENCE
-    return [...placed, { segment, length, offset }]
+    const start = previous ? previous.start + previous.sweep : 0
+    const sweep = total === 0 ? 0 : Math.min((segment.value / total) * FULL_TURN, FULL_TURN - 0.0001)
+    return [...placed, { segment, start, sweep }]
   }, [])
 
   /** Places the marker on the middle of the ring at `angle` (radians, clockwise from 12 o'clock). */
@@ -74,16 +87,16 @@ export const DonutChart = ({ segments, centerLabel, className }: DonutChartProps
     setHover(segment ? markerAt(segment.key, angle, rect.width) : null)
   }
 
-  const handleSegmentFocus = (key: string, arcMiddle: number) => (event: FocusEvent<SVGCircleElement>) => {
+  const handleSegmentFocus = (key: string, arcMiddle: number) => (event: FocusEvent<SVGPathElement>) => {
     const pixelSize = chartRef.current?.getBoundingClientRect().width ?? event.currentTarget.getBoundingClientRect().width
-    setHover(markerAt(key, (arcMiddle / CIRCUMFERENCE) * FULL_TURN, pixelSize))
+    setHover(markerAt(key, arcMiddle, pixelSize))
   }
 
   const clearHover = () => setHover(null)
 
   return (
     <div className={cn('flex flex-wrap items-center justify-center gap-x-6 gap-y-6', className)}>
-      <div ref={chartRef} className="relative size-44 shrink-0">
+      <div ref={chartRef} className="relative size-52 shrink-0">
         <svg
           viewBox={`0 0 ${SIZE} ${SIZE}`}
           className="size-full"
@@ -92,21 +105,17 @@ export const DonutChart = ({ segments, centerLabel, className }: DonutChartProps
           onPointerMove={handlePointerMove}
           onPointerLeave={clearHover}
         >
-          <g transform={`rotate(-90 ${SIZE / 2} ${SIZE / 2})`} fill="none">
-            {arcs.map(({ segment, length, offset }) => (
-              <circle
+          <g fill="none">
+            {arcs.map(({ segment, start, sweep }) => (
+              <path
                 key={segment.key}
-                cx={SIZE / 2}
-                cy={SIZE / 2}
-                r={RADIUS}
+                d={arcPath(start, sweep)}
                 strokeWidth={STROKE}
                 stroke="currentColor"
-                strokeDasharray={`${length} ${CIRCUMFERENCE - length}`}
-                strokeDashoffset={-offset}
                 tabIndex={0}
                 aria-label={`${segment.label}: ${segment.value} (${toPercent(segment.value, total)}%)`}
                 className={cn('outline-none', segment.colorClass)}
-                onFocus={handleSegmentFocus(segment.key, offset + length / 2)}
+                onFocus={handleSegmentFocus(segment.key, start + sweep / 2)}
                 onBlur={clearHover}
               />
             ))}
@@ -114,8 +123,8 @@ export const DonutChart = ({ segments, centerLabel, className }: DonutChartProps
         </svg>
 
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
-          <span className="text-heading-3 tabular-nums">{total}</span>
-          <span className="text-caption text-text-secondary">{centerLabel}</span>
+          <span className="text-heading-2 tabular-nums">{total}</span>
+          <span className="text-body text-text-secondary">{centerLabel}</span>
         </div>
 
         {hover && hovered && (

@@ -78,9 +78,9 @@ export const fetchQualityTrend = async (months: RangeMonths): Promise<QualityTre
 }
 
 const ELIGIBILITY_BY_RANGE: Record<RangeMonths, RecipeEligibility> = {
-  3: { total: 212, viewable: 171, notReady: 41 },
-  6: { total: 384, viewable: 312, notReady: 72 },
-  12: { total: 702, viewable: 566, notReady: 136 },
+  3: { total: 212, viewable: 159, notReady: 53 },
+  6: { total: 384, viewable: 288, notReady: 96 },
+  12: { total: 702, viewable: 527, notReady: 175 },
 }
 
 export const fetchRecipeEligibility = async (months: RangeMonths): Promise<RecipeEligibility> => {
