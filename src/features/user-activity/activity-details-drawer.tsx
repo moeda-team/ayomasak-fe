@@ -6,6 +6,7 @@ import { PersonCell } from '@/components/shared/person-cell'
 import { StatusBadge } from '@/components/shared/status-badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { RoleBadge } from '@/features/user-management/role-badge'
+import { DRAWER_EXIT_MS, useRetainedValue } from '@/hooks/use-retained-value'
 import type { ActivityDetail, UserSnapshot } from './activity-types'
 import { useActivityDetail } from './use-activity'
 
@@ -87,7 +88,8 @@ const DrawerContent = ({ detail }: { detail: ActivityDetail }) => (
 )
 
 export const ActivityDetailsDrawer = ({ activityId, onClose }: ActivityDetailsDrawerProps) => {
-  const { data, error, isLoading, refetch } = useActivityDetail(activityId)
+  // Keep showing the activity while the drawer slides out, instead of flashing the loading skeleton.
+  const { data, error, isLoading, refetch } = useActivityDetail(useRetainedValue(activityId, DRAWER_EXIT_MS))
 
   return (
     <DetailDrawer

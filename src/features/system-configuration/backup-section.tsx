@@ -8,6 +8,7 @@ import { NoticeCard } from '@/components/shared/notice-card'
 import { SettingsCard } from '@/components/shared/settings-card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { DIALOG_EXIT_MS, useRetainedValue } from '@/hooks/use-retained-value'
 import { formatBackupLabel } from './backup-label'
 import { FREQUENCY_OPTIONS, HOUR_OPTIONS, RETENTION_OPTIONS } from './config-options'
 import type { BackupEntry, BackupKind, BackupSchedule } from './config-types'
@@ -49,6 +50,8 @@ const BackupHistoryCard = () => {
   const { data: backups, error, isLoading, refetch } = useBackups()
   const restore = useRestoreBackup()
   const [target, setTarget] = useState<BackupEntry | null>(null)
+  /** What the dialog shows; it outlives `target` for the length of its exit animation. */
+  const shownTarget = useRetainedValue(target, DIALOG_EXIT_MS)
 
   return (
     <SettingsCard title="Backup history" description="Restore a previous backup. Restoring replaces current data.">
@@ -66,19 +69,19 @@ const BackupHistoryCard = () => {
         </ul>
       )}
 
-      {target && (
+      {shownTarget && (
         <ConfirmDialog
-          open
+          open={target !== null}
           onOpenChange={(open) => !open && setTarget(null)}
           title="Restore this backup?"
           description="This action cannot be undone."
           confirmLabel="Restore backup"
           pendingLabel="Restoring…"
           isPending={restore.isPending}
-          onConfirm={() => restore.mutate(target, { onSuccess: () => setTarget(null) })}
+          onConfirm={() => restore.mutate(shownTarget, { onSuccess: () => setTarget(null) })}
         >
           <NoticeCard tone="warning" title="Current data will be replaced">
-            Restoring the backup from {formatBackupLabel(target.createdAt)} replaces current recipes, master data, and
+            Restoring the backup from {formatBackupLabel(shownTarget.createdAt)} replaces current recipes, master data, and
             configuration.
           </NoticeCard>
         </ConfirmDialog>

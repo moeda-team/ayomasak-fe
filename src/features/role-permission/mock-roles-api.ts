@@ -19,6 +19,7 @@ import { FAILING_EMAIL_DOMAIN } from '@/features/user-management/mock-users-api'
 import { MODULE_IDS } from '@/features/user-management/role-permissions'
 import type { RoleId } from '@/features/user-management/user-types'
 import type { CreateRoleInput, RoleDetail, RoleFormValues, RolePermissions, RoleSummary } from './role-types'
+import { failLoadIfMocked } from '@/lib/mock-load-failure'
 
 /**
  * MOCK: replace each function with a real request. The signatures are what the hooks depend on.
@@ -75,6 +76,7 @@ const requireRole = (id: RoleId): RoleRecord => {
 const NO_ACCESS = Object.fromEntries(MODULE_IDS.map((id) => [id, 'none'])) as RoleRecord['modules']
 
 export const fetchRoles = async (): Promise<RoleSummary[]> => {
+  failLoadIfMocked('fetchRoles')
   await wait()
   return listRoleRecords().map(toSummary)
 }
@@ -126,6 +128,7 @@ export const fetchAssignableUsers = async (roleId: RoleId, search: string): Prom
 }
 
 export const fetchRoleMembers = async (roleId: RoleId): Promise<RoleMember[]> => {
+  failLoadIfMocked('fetchRoleMembers')
   await wait()
   return listRoleMembers(roleId)
 }
@@ -138,6 +141,7 @@ export const assignMembers = async (roleId: RoleId, userIds: string[]): Promise<
 }
 
 export const fetchRoleDetail = async (id: RoleId): Promise<RoleDetail> => {
+  failLoadIfMocked('fetchRoleDetail')
   await wait()
   const role = requireRole(id)
   return { ...toSummary(role), modules: role.modules, canPublishRecipes: role.canPublishRecipes }

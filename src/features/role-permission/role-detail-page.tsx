@@ -7,6 +7,7 @@ import { NoticeCard } from '@/components/shared/notice-card'
 import { PageHeader } from '@/components/shared/page-header'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { DIALOG_EXIT_MS, useRetainedValue } from '@/hooks/use-retained-value'
 import type { RoleMember } from '@/features/user-management/mock-users-api'
 import type { AccessLevel, ModuleId } from '@/features/user-management/role-permissions'
 import type { RoleId } from '@/features/user-management/user-types'
@@ -56,6 +57,8 @@ const RoleDetailContent = ({ role }: RoleDetailContentProps) => {
   const permissions = draft ?? saved
   const isDirty = draft !== null && !isSamePermissions(draft, saved)
   const closeDialog = () => setDialog(null)
+  /** What the dialogs show; it outlives `dialog` for the length of their exit animation. */
+  const shownDialog = useRetainedValue(dialog, DIALOG_EXIT_MS)
 
   const handleModuleChange = (moduleId: ModuleId, level: AccessLevel) =>
     setDraft({ ...permissions, modules: { ...permissions.modules, [moduleId]: level } })
@@ -114,9 +117,9 @@ const RoleDetailContent = ({ role }: RoleDetailContentProps) => {
         />
       </div>
 
-      {dialog?.kind === 'assign' && (
+      {shownDialog?.kind === 'assign' && (
         <AssignMembersDialog
-          open
+          open={dialog !== null}
           onOpenChange={(open) => !open && closeDialog()}
           role={role}
           isPending={assignMembers.isPending}
@@ -129,21 +132,21 @@ const RoleDetailContent = ({ role }: RoleDetailContentProps) => {
         />
       )}
 
-      {dialog?.kind === 'remove' && (
+      {shownDialog?.kind === 'remove' && (
         <ConfirmDialog
-          open
+          open={dialog !== null}
           onOpenChange={(open) => !open && closeDialog()}
           title="Remove Member"
-          description={`Remove ${dialog.member.fullName} from ${role.name}?`}
+          description={`Remove ${shownDialog.member.fullName} from ${role.name}?`}
           confirmLabel="Remove Member"
           pendingLabel="Removing…"
           isPending={removeMember.isPending}
           onConfirm={() =>
-            removeMember.mutate({ roleId: role.id, member: dialog.member, roleName: role.name }, { onSuccess: closeDialog })
+            removeMember.mutate({ roleId: role.id, member: shownDialog.member, roleName: role.name }, { onSuccess: closeDialog })
           }
         >
-          <NoticeCard tone="warning" title={`${dialog.member.fullName} will have no role`}>
-            {dialog.member.fullName} loses all access until they are assigned to another role.
+          <NoticeCard tone="warning" title={`${shownDialog.member.fullName} will have no role`}>
+            {shownDialog.member.fullName} loses all access until they are assigned to another role.
           </NoticeCard>
         </ConfirmDialog>
       )}

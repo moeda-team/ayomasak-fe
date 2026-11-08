@@ -6,6 +6,7 @@ import { PersonCell } from '@/components/shared/person-cell'
 import { ToneBadge } from '@/components/shared/tone-badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { RoleBadge } from '@/features/user-management/role-badge'
+import { DRAWER_EXIT_MS, useRetainedValue } from '@/hooks/use-retained-value'
 import { formatDayWib, formatTimeWib } from '@/lib/format-date'
 import { AuditActionBadge, AuditStatusBadge } from './audit-badges'
 import { ENTITY_LABEL } from './audit-labels'
@@ -95,7 +96,8 @@ const DrawerContent = ({ detail }: { detail: AuditDetail }) => (
 )
 
 export const AuditDetailsDrawer = ({ logId, onClose }: AuditDetailsDrawerProps) => {
-  const { data, error, isLoading, refetch } = useAuditDetail(logId)
+  // Keep showing the entry while the drawer slides out, instead of flashing the loading skeleton.
+  const { data, error, isLoading, refetch } = useAuditDetail(useRetainedValue(logId, DRAWER_EXIT_MS))
 
   return (
     <DetailDrawer

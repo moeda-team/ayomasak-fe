@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/shared/page-header'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { DIALOG_EXIT_MS, useRetainedValue } from '@/hooks/use-retained-value'
 import { BackupSection } from './backup-section'
 import {
   DEFAULT_CONFIG,
@@ -22,7 +23,7 @@ import { MatchingSection } from './matching-section'
 import { ToggleListCard } from './toggle-list-card'
 import { useSaveSection, useSystemConfig } from './use-system-config'
 
-type DialogState = { kind: 'reset' } | { kind: 'discard'; nextTab: SectionId }
+type DialogState = { kind: 'reset' } | { kind: 'discard'; leaving: SectionId; nextTab: SectionId }
 
 /** Settings are plain data, so structural equality is enough to tell whether a draft differs from what is saved. */
 const isSame = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
@@ -67,6 +68,8 @@ const ConfigEditor = ({ config, error, onRetry }: ConfigEditorProps) => {
   /** Unsaved edits per section. Leaving a section with edits asks first, so at most one is ever present. */
   const [drafts, setDrafts] = useState<Partial<SystemConfig>>({})
   const [dialog, setDialog] = useState<DialogState | null>(null)
+  /** What the dialogs show; it outlives `dialog` for the length of their exit animation. */
+  const shownDialog = useRetainedValue(dialog, DIALOG_EXIT_MS)
   const save = useSaveSection()
 
   const edit = <TSection extends SectionId>(section: TSection, value: SystemConfig[TSection]) =>
@@ -93,7 +96,7 @@ const ConfigEditor = ({ config, error, onRetry }: ConfigEditorProps) => {
 
   const requestTab = (next: string) => {
     if (!isSectionId(next) || next === tab) return
-    if (isDirty) setDialog({ kind: 'discard', nextTab: next })
+    if (isDirty) setDialog({ kind: 'discard', leaving: tab, nextTab: next })
     else setTab(next)
   }
 
@@ -190,9 +193,9 @@ const ConfigEditor = ({ config, error, onRetry }: ConfigEditorProps) => {
         )}
       </Tabs>
 
-      {dialog?.kind === 'reset' && (
+      {shownDialog?.kind === 'reset' && (
         <ConfirmDialog
-          open
+          open={dialog !== null}
           onOpenChange={(open) => !open && setDialog(null)}
           title="Reset to default values?"
           description={SECTION_RESET_COPY[tab]}
@@ -208,9 +211,9 @@ const ConfigEditor = ({ config, error, onRetry }: ConfigEditorProps) => {
         </ConfirmDialog>
       )}
 
-      {dialog?.kind === 'discard' && (
+      {shownDialog?.kind === 'discard' && (
         <ConfirmDialog
-          open
+          open={dialog !== null}
           onOpenChange={(open) => !open && setDialog(null)}
           title="Discard unsaved changes?"
           description="You are leaving this tab with unsaved changes."
@@ -221,7 +224,7 @@ const ConfigEditor = ({ config, error, onRetry }: ConfigEditorProps) => {
           onConfirm={confirmDialog}
         >
           <NoticeCard tone="warning" title="Changes will not be saved">
-            Your edits to the {SECTION_NOUN[tab]} will be lost if you switch tabs now.
+            Your edits to the {SECTION_NOUN[shownDialog.leaving]} will be lost if you switch tabs now.
           </NoticeCard>
         </ConfirmDialog>
       )}

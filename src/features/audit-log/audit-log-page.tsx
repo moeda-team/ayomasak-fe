@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/shared/page-header'
 import { Button } from '@/components/ui/button'
 import { PAGE_SIZE_OPTIONS } from '@/features/user-management/use-user-list-params'
 import { useDebouncedValue } from '@/hooks/use-debounced-value'
+import { DIALOG_EXIT_MS, useRetainedValue } from '@/hooks/use-retained-value'
 import { AuditDetailsDrawer } from './audit-details-drawer'
 import { AuditFilters } from './audit-filters'
 import { ACTION_LABEL, ENTITY_LABEL, STATUS_LABEL } from './audit-labels'
@@ -22,6 +23,8 @@ export const AuditLogPage = () => {
   const debouncedSearch = useDebouncedValue(searchInput, SEARCH_DEBOUNCE_MS)
   const [openLogId, setOpenLogId] = useState<string | null>(null)
   const [isExportOpen, setIsExportOpen] = useState(false)
+  /** Stays mounted while the dialog plays its exit animation, and is unmounted after so it opens fresh next time. */
+  const isExportMounted = useRetainedValue(isExportOpen || null, DIALOG_EXIT_MS) !== null
 
   const { data, error, isLoading, isPlaceholderData, refetch } = useAuditLogs(params)
 
@@ -99,7 +102,7 @@ export const AuditLogPage = () => {
       )}
 
       <AuditDetailsDrawer logId={openLogId} onClose={() => setOpenLogId(null)} />
-      {isExportOpen && <ExportDialog open onOpenChange={setIsExportOpen} params={params} />}
+      {isExportMounted && <ExportDialog open={isExportOpen} onOpenChange={setIsExportOpen} params={params} />}
     </div>
   )
 }

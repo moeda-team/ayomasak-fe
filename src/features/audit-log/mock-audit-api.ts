@@ -12,6 +12,7 @@ import {
   type AuditLog,
   type ExportScope,
 } from './audit-types'
+import { failLoadIfMocked } from '@/lib/mock-load-failure'
 
 /**
  * MOCK: replace each function with a real request. The signatures are what the hooks depend on.
@@ -98,6 +99,7 @@ const matches = (log: AuditLog, params: AuditListParams) =>
 const toRow = (log: AuditLog): AuditLog => ({ ...log, actor: { ...log.actor } })
 
 export const fetchAuditLogs = async (params: AuditListParams): Promise<AuditListResult> => {
+  failLoadIfMocked('fetchAuditLogs')
   await wait()
   const filtered = logs.filter((log) => matches(log, params))
   const start = (params.page - 1) * params.pageSize

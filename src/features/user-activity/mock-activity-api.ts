@@ -9,6 +9,7 @@ import type {
   ActivityListResult,
   UserSnapshot,
 } from './activity-types'
+import { failLoadIfMocked } from '@/lib/mock-load-failure'
 
 /** MOCK: replace each function with a real request. The signatures are what the hooks depend on. */
 const MOCK_LATENCY_MS = 600
@@ -113,6 +114,7 @@ const matches = ({ activity }: Seed, params: ActivityListParams) => {
 }
 
 export const fetchActivities = async (params: ActivityListParams): Promise<ActivityListResult> => {
+  failLoadIfMocked('fetchActivities')
   await wait()
   const filtered = seeds.filter((seed) => matches(seed, params))
   const start = (params.page - 1) * params.pageSize

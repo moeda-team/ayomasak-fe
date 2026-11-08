@@ -1,5 +1,6 @@
 import { DEFAULT_CONFIG } from './config-options'
 import type { BackupEntry, SectionId, SystemConfig } from './config-types'
+import { failLoadIfMocked } from '@/lib/mock-load-failure'
 
 /**
  * MOCK: replace each function with a real request. The signatures are what the hooks depend on.
@@ -35,6 +36,7 @@ const WOULD_FAIL: { [K in SectionId]: (value: SystemConfig[K]) => boolean } = {
 }
 
 export const fetchSystemConfig = async (): Promise<SystemConfig> => {
+  failLoadIfMocked('fetchSystemConfig')
   await wait()
   return structuredClone(config)
 }
@@ -50,6 +52,7 @@ export const saveConfigSection = async <TSection extends SectionId>(
 }
 
 export const fetchBackups = async (): Promise<BackupEntry[]> => {
+  failLoadIfMocked('fetchBackups')
   await wait()
   return structuredClone(backups)
 }

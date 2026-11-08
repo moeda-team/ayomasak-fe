@@ -5,6 +5,7 @@ import { ErrorState } from '@/components/shared/error-state'
 import { PageHeader } from '@/components/shared/page-header'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { DIALOG_EXIT_MS, useRetainedValue } from '@/hooks/use-retained-value'
 import { AssignMembersDialog } from './assign-members-dialog'
 import { DeleteRoleDialog } from './delete-role-dialog'
 import { RoleCard } from './role-card'
@@ -51,8 +52,12 @@ export const RoleListPage = () => {
     createRole.mutate(input, { onSuccess: closeDialog })
   }
 
-  const formMutation = dialog?.kind === 'edit' ? updateRole : createRole
-  const rejectedName = dialog?.kind === 'edit' ? updateRole.variables?.values.name : createRole.variables?.name
+  /** What the dialogs show; it outlives `dialog` for the length of their exit animation. */
+  const shownDialog = useRetainedValue(dialog, DIALOG_EXIT_MS)
+  const isOpen = dialog !== null
+
+  const formMutation = shownDialog?.kind === 'edit' ? updateRole : createRole
+  const rejectedName = shownDialog?.kind === 'edit' ? updateRole.variables?.values.name : createRole.variables?.name
   const takenName =
     isNameTakenError(formMutation.error) && rejectedName !== undefined
       ? { name: rejectedName.trim(), message: formMutation.error.message }
@@ -96,11 +101,11 @@ export const RoleListPage = () => {
         </div>
       )}
 
-      {(dialog?.kind === 'create' || dialog?.kind === 'edit') && (
+      {(shownDialog?.kind === 'create' || shownDialog?.kind === 'edit') && (
         <RoleFormDialog
-          open
+          open={isOpen}
           onOpenChange={(open) => !open && closeDialog()}
-          role={dialog.kind === 'edit' ? dialog.role : undefined}
+          role={shownDialog.kind === 'edit' ? shownDialog.role : undefined}
           roles={roles ?? []}
           isPending={formMutation.isPending}
           takenName={takenName}
@@ -108,31 +113,31 @@ export const RoleListPage = () => {
         />
       )}
 
-      {dialog?.kind === 'delete' && (
+      {shownDialog?.kind === 'delete' && (
         <DeleteRoleDialog
-          open
+          open={isOpen}
           onOpenChange={(open) => !open && closeDialog()}
-          role={dialog.role}
+          role={shownDialog.role}
           roles={roles ?? []}
           isPending={deleteRole.isPending}
           onConfirm={(moveTo) =>
             deleteRole.mutate(
-              { id: dialog.role.id, moveToId: moveTo?.id, roleName: dialog.role.name, moveToName: moveTo?.name },
+              { id: shownDialog.role.id, moveToId: moveTo?.id, roleName: shownDialog.role.name, moveToName: moveTo?.name },
               { onSuccess: closeDialog },
             )
           }
         />
       )}
 
-      {dialog?.kind === 'assign' && (
+      {shownDialog?.kind === 'assign' && (
         <AssignMembersDialog
-          open
+          open={isOpen}
           onOpenChange={(open) => !open && closeDialog()}
-          role={dialog.role}
+          role={shownDialog.role}
           isPending={assignMembers.isPending}
           onConfirm={(members) =>
             assignMembers.mutate(
-              { roleId: dialog.role.id, userIds: members.map((member) => member.id), roleName: dialog.role.name },
+              { roleId: shownDialog.role.id, userIds: members.map((member) => member.id), roleName: shownDialog.role.name },
               { onSuccess: closeDialog },
             )
           }

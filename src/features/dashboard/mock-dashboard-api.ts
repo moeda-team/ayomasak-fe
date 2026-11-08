@@ -6,6 +6,7 @@ import type {
   RecipeEligibility,
   TopDataIssue,
 } from './dashboard-types'
+import { failLoadIfMocked } from '@/lib/mock-load-failure'
 
 /** MOCK: replace each function with a real request. Signatures are what the hooks depend on. */
 const MOCK_LATENCY_MS = 500
@@ -35,6 +36,7 @@ const toMonthStart = (monthsAgo: number, now: Date) => {
 }
 
 export const fetchDashboardMetrics = async (): Promise<DashboardMetric[]> => {
+  failLoadIfMocked('fetchDashboardMetrics')
   await wait()
   return [
     {
@@ -69,6 +71,7 @@ export const fetchDashboardMetrics = async (): Promise<DashboardMetric[]> => {
 }
 
 export const fetchQualityTrend = async (months: RangeMonths): Promise<QualityTrendPoint[]> => {
+  failLoadIfMocked('fetchQualityTrend')
   await wait()
   const now = new Date()
   return MONTHLY_ISSUES.slice(-months).map((counts, index, window) => ({
@@ -84,6 +87,7 @@ const ELIGIBILITY_BY_RANGE: Record<RangeMonths, RecipeEligibility> = {
 }
 
 export const fetchRecipeEligibility = async (months: RangeMonths): Promise<RecipeEligibility> => {
+  failLoadIfMocked('fetchRecipeEligibility')
   await wait()
   return ELIGIBILITY_BY_RANGE[months]
 }
@@ -100,12 +104,14 @@ const TOP_ISSUES: TopDataIssue[] = [
 const TOP_ISSUES_SCALE: Record<RangeMonths, number> = { 3: 0.5, 6: 1, 12: 1.9 }
 
 export const fetchTopDataIssues = async (months: RangeMonths): Promise<TopDataIssue[]> => {
+  failLoadIfMocked('fetchTopDataIssues')
   await wait()
   const scale = TOP_ISSUES_SCALE[months]
   return TOP_ISSUES.map((issue) => ({ ...issue, count: Math.max(1, Math.round(issue.count * scale)) }))
 }
 
 export const fetchNeedsAttention = async (): Promise<NeedsAttentionItem[]> => {
+  failLoadIfMocked('fetchNeedsAttention')
   await wait()
   const now = Date.now()
   const hoursAgo = (hours: number) => new Date(now - hours * HOUR_MS).toISOString()

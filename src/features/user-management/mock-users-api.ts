@@ -1,5 +1,6 @@
 import { type RoleOption, type User, type UserFormValues, type UserListParams, type UserListResult, type UserMetric } from './user-types'
 import { listRoleRecords } from './role-registry'
+import { failLoadIfMocked } from '@/lib/mock-load-failure'
 
 /**
  * MOCK: replace each function with a real request. The signatures are what the hooks depend on.
@@ -103,6 +104,7 @@ const matches = (user: User, params: UserListParams) =>
   matchesJoinDate(user, params.joinedFrom, params.joinedTo)
 
 export const fetchUsers = async (params: UserListParams): Promise<UserListResult> => {
+  failLoadIfMocked('fetchUsers')
   await wait()
   const filtered = db.filter((user) => matches(user, params))
   const start = (params.page - 1) * params.pageSize
@@ -122,6 +124,7 @@ const TREND = {
 }
 
 export const fetchUserMetrics = async (): Promise<UserMetric[]> => {
+  failLoadIfMocked('fetchUserMetrics')
   await wait()
   const active = db.filter((user) => user.status === 'active').length
   const total = db.length

@@ -5,6 +5,7 @@ import { PageHeader } from '@/components/shared/page-header'
 import { SelectionBar } from '@/components/shared/selection-bar'
 import { Button } from '@/components/ui/button'
 import { useDebouncedValue } from '@/hooks/use-debounced-value'
+import { DIALOG_EXIT_MS, useRetainedValue } from '@/hooks/use-retained-value'
 import { PAGE_SIZE_OPTIONS, useUserListParams } from './use-user-list-params'
 import { useCreateUser, useDeleteUsers, useUpdateUser, useUsers } from './use-users'
 import { UserFilters } from './user-filters'
@@ -79,8 +80,10 @@ export const UserListPage = () => {
     })
   }
 
+  /** What the dialogs show; it outlives `dialog` for the length of their exit animation. */
+  const shownDialog = useRetainedValue(dialog, DIALOG_EXIT_MS)
   const isFormOpen = dialog?.kind === 'create' || dialog?.kind === 'edit'
-  const deleteCopy = dialog?.kind === 'delete' ? toDeleteCopy(dialog.users) : null
+  const deleteCopy = shownDialog?.kind === 'delete' ? toDeleteCopy(shownDialog.users) : null
 
   return (
     <div className="flex flex-col gap-6">
@@ -142,10 +145,10 @@ export const UserListPage = () => {
       )}
 
       <UserFormDialog
-        key={dialog?.kind === 'edit' ? dialog.user.id : 'create'}
+        key={shownDialog?.kind === 'edit' ? shownDialog.user.id : 'create'}
         open={isFormOpen}
         onOpenChange={(open) => !open && closeDialog()}
-        user={dialog?.kind === 'edit' ? dialog.user : undefined}
+        user={shownDialog?.kind === 'edit' ? shownDialog.user : undefined}
         isPending={createUser.isPending || updateUser.isPending}
         onSubmit={handleFormSubmit}
       />
