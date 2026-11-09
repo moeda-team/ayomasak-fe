@@ -1,4 +1,4 @@
-import { XCircleIcon } from '@phosphor-icons/react'
+import { RemovableChip } from './removable-chip'
 
 export type FilterChip = {
   /** Unique within the list. */
@@ -22,20 +22,7 @@ export const FilterSummary = ({ resultCount, chips }: FilterSummaryProps) => (
       </span>
     )}
     {chips.map((chip) => (
-      <span
-        key={chip.key}
-        className="inline-flex items-center gap-1.5 rounded-full border border-border-default bg-surface-default py-1 pr-1.5 pl-3 text-caption"
-      >
-        {chip.label}
-        <button
-          type="button"
-          aria-label={`Remove filter ${chip.label}`}
-          onClick={chip.onRemove}
-          className="rounded-full text-text-secondary outline-none hover:text-text-primary focus-visible:ring-[3px] focus-visible:ring-ring/50"
-        >
-          <XCircleIcon className="size-4" aria-hidden />
-        </button>
-      </span>
+      <RemovableChip key={chip.key} label={chip.label} removeLabel={`Remove filter ${chip.label}`} onRemove={chip.onRemove} />
     ))}
   </div>
 )

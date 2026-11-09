@@ -1,13 +1,11 @@
 import { useSession } from '@/features/auth/auth-store'
+import { WIDE_NARROW_ROW } from './dashboard-layout'
 import { MetricsSection } from './metrics-section'
 import { NeedsAttentionCard } from './needs-attention-card'
 import { QualityTrendCard } from './quality-trend-card'
 import { QuickActions } from './quick-actions'
 import { RecipeEligibilityCard } from './recipe-eligibility-card'
 import { TopIssuesCard } from './top-issues-card'
-
-/** 788:500 split from the design, collapsing to one column below xl. */
-const WIDE_NARROW_ROW = 'grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,788fr)_minmax(0,500fr)]'
 
 export const DashboardPage = () => {
   const session = useSession()

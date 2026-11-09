@@ -4,7 +4,6 @@ import {
   DatabaseIcon,
   FlagIcon,
   GearIcon,
-  SealCheckIcon,
   ShieldCheckIcon,
   SquaresFourIcon,
   UsersIcon,
@@ -18,6 +17,7 @@ export type NavPath =
   | '/review-queue'
   | '/recipes'
   | '/data-quality'
+  | '/analytics'
   | '/moderation-queue'
   | '/user-list'
   | '/user-activity'
@@ -52,7 +52,17 @@ export const isNavParent = (entry: NavEntry): entry is NavParent => 'children' i
 
 export const NAV_GROUPS: NavGroup[] = [
   {
-    entries: [{ label: 'Dashboard', to: '/dashboard', icon: SquaresFourIcon }],
+    entries: [
+      {
+        label: 'Dashboard',
+        icon: SquaresFourIcon,
+        children: [
+          { label: 'Dashboard User', to: '/dashboard' },
+          { label: 'Data Quality', to: '/data-quality' },
+          { label: 'Dashboard Analytics', to: '/analytics' },
+        ],
+      },
+    ],
   },
   {
     label: 'Content Ops',
@@ -67,7 +77,6 @@ export const NAV_GROUPS: NavGroup[] = [
         ],
       },
       { label: 'Recipes', to: '/recipes', icon: CookingPotIcon },
-      { label: 'Data Quality', to: '/data-quality', icon: SealCheckIcon },
       { label: 'Moderation Queue', to: '/moderation-queue', icon: FlagIcon },
     ],
   },

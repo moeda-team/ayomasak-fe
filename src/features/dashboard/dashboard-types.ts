@@ -1,6 +1,6 @@
 export type RangeMonths = 3 | 6 | 12
 
-export type MetricKey = 'draft-recipes' | 'publish-blockers' | 'stale-nutrition' | 'unmapped-input'
+export type MetricKey = 'draft-recipes' | 'publish-blockers' | 'stale-nutrition' | 'unmapped-input' | 'broken-media'
 
 export type DashboardMetric = {
   key: MetricKey

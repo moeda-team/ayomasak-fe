@@ -1,4 +1,11 @@
-import { ClockCountdownIcon, LinkBreakIcon, NotePencilIcon, WarningOctagonIcon, type Icon } from '@phosphor-icons/react'
+import {
+  ClockCountdownIcon,
+  ImageBrokenIcon,
+  LinkBreakIcon,
+  NotePencilIcon,
+  WarningOctagonIcon,
+  type Icon,
+} from '@phosphor-icons/react'
 import type { Tone } from '@/components/shared/tone'
 import type { NavPath } from '@/features/navigation/nav-items'
 import type { MetricKey } from './dashboard-types'
@@ -41,5 +48,12 @@ export const METRIC_CONFIG: Record<MetricKey, MetricConfig> = {
     iconTone: 'info',
     trendTone: 'success',
     destination: '/master-bahan',
+  },
+  'broken-media': {
+    label: 'Broken Media',
+    icon: ImageBrokenIcon,
+    iconTone: 'warning',
+    trendTone: 'warning',
+    destination: '/recipes',
   },
 }

@@ -4,7 +4,8 @@ import { cn } from '@/lib/utils'
 
 type NoticeCardProps = {
   tone: 'warning' | 'info'
-  title: string
+  /** Leave out when the note is a single sentence. */
+  title?: string
   children: ReactNode
   className?: string
 }
@@ -19,7 +20,7 @@ export const NoticeCard = ({ tone, title, children, className }: NoticeCardProps
     <div role="note" className={cn('surface-card flex items-start gap-3 p-4', className)}>
       <IconComponent aria-hidden className={cn('mt-0.5 size-5 shrink-0', NOTICE_ICON_CLASS[tone])} />
       <div className="flex min-w-0 flex-col gap-1">
-        <p className="text-body-strong">{title}</p>
+        {title && <p className="text-body-strong">{title}</p>}
         <p className="text-body-sm text-text-secondary">{children}</p>
       </div>
     </div>

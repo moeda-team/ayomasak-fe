@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppAnalyticsRouteImport } from './routes/_app/analytics'
 import { Route as AppAuditLogRouteImport } from './routes/_app/audit-log'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppDataQualityRouteImport } from './routes/_app/data-quality'
@@ -38,6 +39,11 @@ const LoginRoute = LoginRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAuditLogRoute = AppAuditLogRouteImport.update({
@@ -109,6 +115,7 @@ const AppRolePermissionRoleIdRoute = AppRolePermissionRoleIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
+  '/analytics': typeof AppAnalyticsRoute
   '/audit-log': typeof AppAuditLogRoute
   '/dashboard': typeof AppDashboardRoute
   '/data-quality': typeof AppDataQualityRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
+  '/analytics': typeof AppAnalyticsRoute
   '/audit-log': typeof AppAuditLogRoute
   '/dashboard': typeof AppDashboardRoute
   '/data-quality': typeof AppDataQualityRoute
@@ -144,6 +152,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/_app/analytics': typeof AppAnalyticsRoute
   '/_app/audit-log': typeof AppAuditLogRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/data-quality': typeof AppDataQualityRoute
@@ -164,6 +173,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/analytics'
     | '/audit-log'
     | '/dashboard'
     | '/data-quality'
@@ -180,6 +190,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
+    | '/analytics'
     | '/audit-log'
     | '/dashboard'
     | '/data-quality'
@@ -198,6 +209,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_app'
     | '/login'
+    | '/_app/analytics'
     | '/_app/audit-log'
     | '/_app/dashboard'
     | '/_app/data-quality'
@@ -240,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/analytics': {
+      id: '/_app/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/audit-log': {
@@ -337,6 +356,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppAuditLogRoute: typeof AppAuditLogRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppDataQualityRoute: typeof AppDataQualityRoute
@@ -354,6 +374,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAnalyticsRoute: AppAnalyticsRoute,
   AppAuditLogRoute: AppAuditLogRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppDataQualityRoute: AppDataQualityRoute,

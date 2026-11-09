@@ -6,6 +6,7 @@ const statusBadgeVariants = cva('border-transparent text-caption', {
   variants: {
     status: {
       draft: 'bg-status-warning-subtle text-text-warning',
+      'pending-review': 'bg-status-warning-subtle text-text-warning',
       published: 'bg-status-info-subtle text-status-info',
       verified: 'bg-status-success-subtle text-text-success',
       inactive: 'bg-surface-subtle text-text-secondary',
@@ -19,6 +20,7 @@ export type RecordStatus = NonNullable<VariantProps<typeof statusBadgeVariants>[
 
 const STATUS_LABELS: Record<RecordStatus, string> = {
   draft: 'Draft',
+  'pending-review': 'Pending review',
   published: 'Published',
   verified: 'Verified',
   inactive: 'Inactive',

@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { MetricCard, type DeltaSentiment } from '@/components/shared/metric-card'
+import { MetricCard, toDeltaLabel, toDeltaSentiment } from '@/components/shared/metric-card'
 import { ErrorState } from '@/components/shared/error-state'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -8,14 +8,6 @@ import { METRIC_CONFIG } from './metric-config'
 import { useDashboardMetrics } from './use-dashboard-queries'
 
 const METRIC_SKELETON_COUNT = 4
-
-const toDeltaSentiment = (deltaPercent: number): DeltaSentiment => {
-  if (deltaPercent < 0) return 'good'
-  if (deltaPercent > 0) return 'bad'
-  return 'neutral'
-}
-
-const toDeltaLabel = (deltaPercent: number) => `${deltaPercent > 0 ? '+' : ''}${deltaPercent}%`
 
 const GRID_CLASS = 'grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4'
 
@@ -37,7 +29,7 @@ const MetricCardFor = ({ metric }: { metric: DashboardMetric }) => {
       iconTone={config.iconTone}
       value={metric.value.toLocaleString('en')}
       deltaLabel={toDeltaLabel(metric.deltaPercent)}
-      deltaSentiment={toDeltaSentiment(metric.deltaPercent)}
+      deltaSentiment={toDeltaSentiment(metric.deltaPercent, 'lower')}
       comparisonLabel={`vs last ${metric.comparisonPeriod}`}
       trend={metric.trend}
       trendTone={config.trendTone}

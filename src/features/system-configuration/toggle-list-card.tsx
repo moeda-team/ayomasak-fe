@@ -1,6 +1,5 @@
 import { SettingsCard } from '@/components/shared/settings-card'
-import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
+import { ToggleRow } from '@/components/shared/toggle-row'
 
 type ToggleListCardProps<TId extends string> = {
   title: string
@@ -24,23 +23,13 @@ export const ToggleListCard = <TId extends string>({
   <SettingsCard title={title} description={description}>
     <ul className="flex flex-col gap-3">
       {ids.map((id) => (
-        <li
-          key={id}
-          className="flex items-center justify-between gap-4 rounded-lg border border-border-default px-4 py-3"
-        >
-          <div className="flex min-w-0 flex-col gap-0.5">
-            <Label htmlFor={`toggle-${id}`} className="text-body-sm-strong">
-              {copy[id].label}
-            </Label>
-            <p id={`toggle-${id}-description`} className="text-caption text-text-secondary">
-              {copy[id].description}
-            </p>
-          </div>
-          <Switch
+        <li key={id}>
+          <ToggleRow
             id={`toggle-${id}`}
+            label={copy[id].label}
+            description={copy[id].description}
             checked={values[id]}
             onCheckedChange={(isOn) => onChange(id, isOn)}
-            aria-describedby={`toggle-${id}-description`}
           />
         </li>
       ))}
