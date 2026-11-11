@@ -18,14 +18,18 @@ import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppDataQualityRouteImport } from './routes/_app/data-quality'
 import { Route as AppMasterBahanRouteImport } from './routes/_app/master-bahan'
 import { Route as AppMasterEquipmentRouteImport } from './routes/_app/master-equipment'
+import { Route as AppMasterUnitRouteImport } from './routes/_app/master-unit'
 import { Route as AppModerationQueueRouteImport } from './routes/_app/moderation-queue'
-import { Route as AppRecipesRouteImport } from './routes/_app/recipes'
 import { Route as AppReviewQueueRouteImport } from './routes/_app/review-queue'
 import { Route as AppSystemConfigurationRouteImport } from './routes/_app/system-configuration'
 import { Route as AppUserActivityRouteImport } from './routes/_app/user-activity'
 import { Route as AppUserListRouteImport } from './routes/_app/user-list'
+import { Route as AppRecipesIndexRouteImport } from './routes/_app/recipes/index'
+import { Route as AppRecipesNewRouteImport } from './routes/_app/recipes/new'
 import { Route as AppRolePermissionIndexRouteImport } from './routes/_app/role-permission/index'
 import { Route as AppRolePermissionRoleIdRouteImport } from './routes/_app/role-permission/$roleId'
+import { Route as AppRecipesRecipeIdIndexRouteImport } from './routes/_app/recipes/$recipeId/index'
+import { Route as AppRecipesRecipeIdEditRouteImport } from './routes/_app/recipes/$recipeId/edit'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -71,14 +75,14 @@ const AppMasterEquipmentRoute = AppMasterEquipmentRouteImport.update({
   path: '/master-equipment',
   getParentRoute: () => AppRoute,
 } as any)
+const AppMasterUnitRoute = AppMasterUnitRouteImport.update({
+  id: '/master-unit',
+  path: '/master-unit',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppModerationQueueRoute = AppModerationQueueRouteImport.update({
   id: '/moderation-queue',
   path: '/moderation-queue',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppRecipesRoute = AppRecipesRouteImport.update({
-  id: '/recipes',
-  path: '/recipes',
   getParentRoute: () => AppRoute,
 } as any)
 const AppReviewQueueRoute = AppReviewQueueRouteImport.update({
@@ -101,6 +105,16 @@ const AppUserListRoute = AppUserListRouteImport.update({
   path: '/user-list',
   getParentRoute: () => AppRoute,
 } as any)
+const AppRecipesIndexRoute = AppRecipesIndexRouteImport.update({
+  id: '/recipes/',
+  path: '/recipes/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRecipesNewRoute = AppRecipesNewRouteImport.update({
+  id: '/recipes/new',
+  path: '/recipes/new',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppRolePermissionIndexRoute = AppRolePermissionIndexRouteImport.update({
   id: '/role-permission/',
   path: '/role-permission/',
@@ -109,6 +123,16 @@ const AppRolePermissionIndexRoute = AppRolePermissionIndexRouteImport.update({
 const AppRolePermissionRoleIdRoute = AppRolePermissionRoleIdRouteImport.update({
   id: '/role-permission/$roleId',
   path: '/role-permission/$roleId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRecipesRecipeIdIndexRoute = AppRecipesRecipeIdIndexRouteImport.update({
+  id: '/recipes/$recipeId/',
+  path: '/recipes/$recipeId/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRecipesRecipeIdEditRoute = AppRecipesRecipeIdEditRouteImport.update({
+  id: '/recipes/$recipeId/edit',
+  path: '/recipes/$recipeId/edit',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -121,14 +145,18 @@ export interface FileRoutesByFullPath {
   '/data-quality': typeof AppDataQualityRoute
   '/master-bahan': typeof AppMasterBahanRoute
   '/master-equipment': typeof AppMasterEquipmentRoute
+  '/master-unit': typeof AppMasterUnitRoute
   '/moderation-queue': typeof AppModerationQueueRoute
-  '/recipes': typeof AppRecipesRoute
   '/review-queue': typeof AppReviewQueueRoute
   '/system-configuration': typeof AppSystemConfigurationRoute
   '/user-activity': typeof AppUserActivityRoute
   '/user-list': typeof AppUserListRoute
+  '/recipes/new': typeof AppRecipesNewRoute
   '/role-permission/$roleId': typeof AppRolePermissionRoleIdRoute
+  '/recipes/': typeof AppRecipesIndexRoute
   '/role-permission/': typeof AppRolePermissionIndexRoute
+  '/recipes/$recipeId/edit': typeof AppRecipesRecipeIdEditRoute
+  '/recipes/$recipeId/': typeof AppRecipesRecipeIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -138,15 +166,19 @@ export interface FileRoutesByTo {
   '/data-quality': typeof AppDataQualityRoute
   '/master-bahan': typeof AppMasterBahanRoute
   '/master-equipment': typeof AppMasterEquipmentRoute
+  '/master-unit': typeof AppMasterUnitRoute
   '/moderation-queue': typeof AppModerationQueueRoute
-  '/recipes': typeof AppRecipesRoute
   '/review-queue': typeof AppReviewQueueRoute
   '/system-configuration': typeof AppSystemConfigurationRoute
   '/user-activity': typeof AppUserActivityRoute
   '/user-list': typeof AppUserListRoute
   '/': typeof AppIndexRoute
+  '/recipes/new': typeof AppRecipesNewRoute
   '/role-permission/$roleId': typeof AppRolePermissionRoleIdRoute
+  '/recipes': typeof AppRecipesIndexRoute
   '/role-permission': typeof AppRolePermissionIndexRoute
+  '/recipes/$recipeId/edit': typeof AppRecipesRecipeIdEditRoute
+  '/recipes/$recipeId': typeof AppRecipesRecipeIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -158,15 +190,19 @@ export interface FileRoutesById {
   '/_app/data-quality': typeof AppDataQualityRoute
   '/_app/master-bahan': typeof AppMasterBahanRoute
   '/_app/master-equipment': typeof AppMasterEquipmentRoute
+  '/_app/master-unit': typeof AppMasterUnitRoute
   '/_app/moderation-queue': typeof AppModerationQueueRoute
-  '/_app/recipes': typeof AppRecipesRoute
   '/_app/review-queue': typeof AppReviewQueueRoute
   '/_app/system-configuration': typeof AppSystemConfigurationRoute
   '/_app/user-activity': typeof AppUserActivityRoute
   '/_app/user-list': typeof AppUserListRoute
   '/_app/': typeof AppIndexRoute
+  '/_app/recipes/new': typeof AppRecipesNewRoute
   '/_app/role-permission/$roleId': typeof AppRolePermissionRoleIdRoute
+  '/_app/recipes/': typeof AppRecipesIndexRoute
   '/_app/role-permission/': typeof AppRolePermissionIndexRoute
+  '/_app/recipes/$recipeId/edit': typeof AppRecipesRecipeIdEditRoute
+  '/_app/recipes/$recipeId/': typeof AppRecipesRecipeIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -179,14 +215,18 @@ export interface FileRouteTypes {
     | '/data-quality'
     | '/master-bahan'
     | '/master-equipment'
+    | '/master-unit'
     | '/moderation-queue'
-    | '/recipes'
     | '/review-queue'
     | '/system-configuration'
     | '/user-activity'
     | '/user-list'
+    | '/recipes/new'
     | '/role-permission/$roleId'
+    | '/recipes/'
     | '/role-permission/'
+    | '/recipes/$recipeId/edit'
+    | '/recipes/$recipeId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -196,15 +236,19 @@ export interface FileRouteTypes {
     | '/data-quality'
     | '/master-bahan'
     | '/master-equipment'
+    | '/master-unit'
     | '/moderation-queue'
-    | '/recipes'
     | '/review-queue'
     | '/system-configuration'
     | '/user-activity'
     | '/user-list'
     | '/'
+    | '/recipes/new'
     | '/role-permission/$roleId'
+    | '/recipes'
     | '/role-permission'
+    | '/recipes/$recipeId/edit'
+    | '/recipes/$recipeId'
   id:
     | '__root__'
     | '/_app'
@@ -215,15 +259,19 @@ export interface FileRouteTypes {
     | '/_app/data-quality'
     | '/_app/master-bahan'
     | '/_app/master-equipment'
+    | '/_app/master-unit'
     | '/_app/moderation-queue'
-    | '/_app/recipes'
     | '/_app/review-queue'
     | '/_app/system-configuration'
     | '/_app/user-activity'
     | '/_app/user-list'
     | '/_app/'
+    | '/_app/recipes/new'
     | '/_app/role-permission/$roleId'
+    | '/_app/recipes/'
     | '/_app/role-permission/'
+    | '/_app/recipes/$recipeId/edit'
+    | '/_app/recipes/$recipeId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -296,18 +344,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMasterEquipmentRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/master-unit': {
+      id: '/_app/master-unit'
+      path: '/master-unit'
+      fullPath: '/master-unit'
+      preLoaderRoute: typeof AppMasterUnitRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/moderation-queue': {
       id: '/_app/moderation-queue'
       path: '/moderation-queue'
       fullPath: '/moderation-queue'
       preLoaderRoute: typeof AppModerationQueueRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/recipes': {
-      id: '/_app/recipes'
-      path: '/recipes'
-      fullPath: '/recipes'
-      preLoaderRoute: typeof AppRecipesRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/review-queue': {
@@ -338,6 +386,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppUserListRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/recipes/': {
+      id: '/_app/recipes/'
+      path: '/recipes'
+      fullPath: '/recipes/'
+      preLoaderRoute: typeof AppRecipesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/recipes/new': {
+      id: '/_app/recipes/new'
+      path: '/recipes/new'
+      fullPath: '/recipes/new'
+      preLoaderRoute: typeof AppRecipesNewRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/role-permission/': {
       id: '/_app/role-permission/'
       path: '/role-permission'
@@ -352,6 +414,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRolePermissionRoleIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/recipes/$recipeId/': {
+      id: '/_app/recipes/$recipeId/'
+      path: '/recipes/$recipeId'
+      fullPath: '/recipes/$recipeId/'
+      preLoaderRoute: typeof AppRecipesRecipeIdIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/recipes/$recipeId/edit': {
+      id: '/_app/recipes/$recipeId/edit'
+      path: '/recipes/$recipeId/edit'
+      fullPath: '/recipes/$recipeId/edit'
+      preLoaderRoute: typeof AppRecipesRecipeIdEditRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -362,15 +438,19 @@ interface AppRouteChildren {
   AppDataQualityRoute: typeof AppDataQualityRoute
   AppMasterBahanRoute: typeof AppMasterBahanRoute
   AppMasterEquipmentRoute: typeof AppMasterEquipmentRoute
+  AppMasterUnitRoute: typeof AppMasterUnitRoute
   AppModerationQueueRoute: typeof AppModerationQueueRoute
-  AppRecipesRoute: typeof AppRecipesRoute
   AppReviewQueueRoute: typeof AppReviewQueueRoute
   AppSystemConfigurationRoute: typeof AppSystemConfigurationRoute
   AppUserActivityRoute: typeof AppUserActivityRoute
   AppUserListRoute: typeof AppUserListRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppRecipesNewRoute: typeof AppRecipesNewRoute
   AppRolePermissionRoleIdRoute: typeof AppRolePermissionRoleIdRoute
+  AppRecipesIndexRoute: typeof AppRecipesIndexRoute
   AppRolePermissionIndexRoute: typeof AppRolePermissionIndexRoute
+  AppRecipesRecipeIdEditRoute: typeof AppRecipesRecipeIdEditRoute
+  AppRecipesRecipeIdIndexRoute: typeof AppRecipesRecipeIdIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -380,15 +460,19 @@ const AppRouteChildren: AppRouteChildren = {
   AppDataQualityRoute: AppDataQualityRoute,
   AppMasterBahanRoute: AppMasterBahanRoute,
   AppMasterEquipmentRoute: AppMasterEquipmentRoute,
+  AppMasterUnitRoute: AppMasterUnitRoute,
   AppModerationQueueRoute: AppModerationQueueRoute,
-  AppRecipesRoute: AppRecipesRoute,
   AppReviewQueueRoute: AppReviewQueueRoute,
   AppSystemConfigurationRoute: AppSystemConfigurationRoute,
   AppUserActivityRoute: AppUserActivityRoute,
   AppUserListRoute: AppUserListRoute,
   AppIndexRoute: AppIndexRoute,
+  AppRecipesNewRoute: AppRecipesNewRoute,
   AppRolePermissionRoleIdRoute: AppRolePermissionRoleIdRoute,
+  AppRecipesIndexRoute: AppRecipesIndexRoute,
   AppRolePermissionIndexRoute: AppRolePermissionIndexRoute,
+  AppRecipesRecipeIdEditRoute: AppRecipesRecipeIdEditRoute,
+  AppRecipesRecipeIdIndexRoute: AppRecipesRecipeIdIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

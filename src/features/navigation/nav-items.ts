@@ -14,6 +14,7 @@ export type NavPath =
   | '/dashboard'
   | '/master-bahan'
   | '/master-equipment'
+  | '/master-unit'
   | '/review-queue'
   | '/recipes'
   | '/data-quality'
@@ -73,6 +74,7 @@ export const NAV_GROUPS: NavGroup[] = [
         children: [
           { label: 'Master Bahan', to: '/master-bahan' },
           { label: 'Master Equipment', to: '/master-equipment' },
+          { label: 'Master Unit', to: '/master-unit' },
           { label: 'Review Queue', to: '/review-queue' },
         ],
       },
