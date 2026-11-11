@@ -1,4 +1,5 @@
 import { getRouteApi } from '@tanstack/react-router'
+import { BrandLogo } from '@/components/shared/brand-logo'
 import { LoginForm } from './login-form'
 
 const loginRoute = getRouteApi('/login')
@@ -33,11 +34,7 @@ export const LoginPage = () => {
 
   return (
     <main className="grid min-h-svh grid-cols-1 max-lg:content-start gap-6 bg-surface-canvas p-4 sm:p-8 lg:grid-cols-[minmax(26rem,2fr)_minmax(0,3fr)] lg:grid-rows-[auto_1fr] lg:gap-x-0 lg:gap-y-0 lg:p-0">
-      <img
-        src="/raos-logo.svg"
-        alt="Raos"
-        className="h-8 w-auto self-start sm:h-9 lg:col-start-1 lg:row-start-1 lg:m-8 dark:brightness-0 dark:invert"
-      />
+      <BrandLogo className="self-start lg:col-start-1 lg:row-start-1 lg:m-8" />
       <LoginHero />
       <section className="mx-auto flex w-full max-w-100 flex-col gap-8 pb-4 lg:col-start-1 lg:row-start-2 lg:justify-center lg:px-8 lg:pb-24">
         <header className="flex flex-col gap-1">

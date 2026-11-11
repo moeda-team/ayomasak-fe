@@ -30,11 +30,11 @@ const HOUR_MS = 3_600_000
 const wait = () => new Promise((resolve) => setTimeout(resolve, MOCK_LATENCY_MS))
 
 const ACTORS: AuditActor[] = [
-  { id: 'actor-1', name: 'Nadia Putri', email: 'nadia.putri@raos.com', roleId: 'reviewer' },
-  { id: 'actor-2', name: 'Super Admin', email: 'superadmin@raos.com', roleId: 'super-admin' },
-  { id: 'actor-3', name: 'Rizky Maulana', email: 'rizky.maulana@raos.com', roleId: 'reviewer' },
-  { id: 'actor-4', name: 'Layla Rahma', email: 'layla.rahma@raos.com', roleId: 'content-manager' },
-  { id: 'actor-5', name: 'Budi Santoso', email: 'budi.santoso@raos.com', roleId: 'moderator' },
+  { id: 'actor-1', name: 'Nadia Putri', email: 'nadia.putri@masakuy.com', roleId: 'reviewer' },
+  { id: 'actor-2', name: 'Super Admin', email: 'superadmin@masakuy.com', roleId: 'super-admin' },
+  { id: 'actor-3', name: 'Rizky Maulana', email: 'rizky.maulana@masakuy.com', roleId: 'reviewer' },
+  { id: 'actor-4', name: 'Layla Rahma', email: 'layla.rahma@masakuy.com', roleId: 'content-manager' },
+  { id: 'actor-5', name: 'Budi Santoso', email: 'budi.santoso@masakuy.com', roleId: 'moderator' },
 ]
 
 const ENTITIES: Record<AuditEntityType, { prefix: string; names: string[] }> = {

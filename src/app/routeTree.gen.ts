@@ -19,6 +19,7 @@ import { Route as AppDataQualityRouteImport } from './routes/_app/data-quality'
 import { Route as AppMasterBahanRouteImport } from './routes/_app/master-bahan'
 import { Route as AppMasterEquipmentRouteImport } from './routes/_app/master-equipment'
 import { Route as AppMasterUnitRouteImport } from './routes/_app/master-unit'
+import { Route as AppMediaLibraryRouteImport } from './routes/_app/media-library'
 import { Route as AppModerationQueueRouteImport } from './routes/_app/moderation-queue'
 import { Route as AppReviewQueueRouteImport } from './routes/_app/review-queue'
 import { Route as AppSystemConfigurationRouteImport } from './routes/_app/system-configuration'
@@ -78,6 +79,11 @@ const AppMasterEquipmentRoute = AppMasterEquipmentRouteImport.update({
 const AppMasterUnitRoute = AppMasterUnitRouteImport.update({
   id: '/master-unit',
   path: '/master-unit',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMediaLibraryRoute = AppMediaLibraryRouteImport.update({
+  id: '/media-library',
+  path: '/media-library',
   getParentRoute: () => AppRoute,
 } as any)
 const AppModerationQueueRoute = AppModerationQueueRouteImport.update({
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/master-bahan': typeof AppMasterBahanRoute
   '/master-equipment': typeof AppMasterEquipmentRoute
   '/master-unit': typeof AppMasterUnitRoute
+  '/media-library': typeof AppMediaLibraryRoute
   '/moderation-queue': typeof AppModerationQueueRoute
   '/review-queue': typeof AppReviewQueueRoute
   '/system-configuration': typeof AppSystemConfigurationRoute
@@ -167,6 +174,7 @@ export interface FileRoutesByTo {
   '/master-bahan': typeof AppMasterBahanRoute
   '/master-equipment': typeof AppMasterEquipmentRoute
   '/master-unit': typeof AppMasterUnitRoute
+  '/media-library': typeof AppMediaLibraryRoute
   '/moderation-queue': typeof AppModerationQueueRoute
   '/review-queue': typeof AppReviewQueueRoute
   '/system-configuration': typeof AppSystemConfigurationRoute
@@ -191,6 +199,7 @@ export interface FileRoutesById {
   '/_app/master-bahan': typeof AppMasterBahanRoute
   '/_app/master-equipment': typeof AppMasterEquipmentRoute
   '/_app/master-unit': typeof AppMasterUnitRoute
+  '/_app/media-library': typeof AppMediaLibraryRoute
   '/_app/moderation-queue': typeof AppModerationQueueRoute
   '/_app/review-queue': typeof AppReviewQueueRoute
   '/_app/system-configuration': typeof AppSystemConfigurationRoute
@@ -216,6 +225,7 @@ export interface FileRouteTypes {
     | '/master-bahan'
     | '/master-equipment'
     | '/master-unit'
+    | '/media-library'
     | '/moderation-queue'
     | '/review-queue'
     | '/system-configuration'
@@ -237,6 +247,7 @@ export interface FileRouteTypes {
     | '/master-bahan'
     | '/master-equipment'
     | '/master-unit'
+    | '/media-library'
     | '/moderation-queue'
     | '/review-queue'
     | '/system-configuration'
@@ -260,6 +271,7 @@ export interface FileRouteTypes {
     | '/_app/master-bahan'
     | '/_app/master-equipment'
     | '/_app/master-unit'
+    | '/_app/media-library'
     | '/_app/moderation-queue'
     | '/_app/review-queue'
     | '/_app/system-configuration'
@@ -351,6 +363,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMasterUnitRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/media-library': {
+      id: '/_app/media-library'
+      path: '/media-library'
+      fullPath: '/media-library'
+      preLoaderRoute: typeof AppMediaLibraryRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/moderation-queue': {
       id: '/_app/moderation-queue'
       path: '/moderation-queue'
@@ -439,6 +458,7 @@ interface AppRouteChildren {
   AppMasterBahanRoute: typeof AppMasterBahanRoute
   AppMasterEquipmentRoute: typeof AppMasterEquipmentRoute
   AppMasterUnitRoute: typeof AppMasterUnitRoute
+  AppMediaLibraryRoute: typeof AppMediaLibraryRoute
   AppModerationQueueRoute: typeof AppModerationQueueRoute
   AppReviewQueueRoute: typeof AppReviewQueueRoute
   AppSystemConfigurationRoute: typeof AppSystemConfigurationRoute
@@ -461,6 +481,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppMasterBahanRoute: AppMasterBahanRoute,
   AppMasterEquipmentRoute: AppMasterEquipmentRoute,
   AppMasterUnitRoute: AppMasterUnitRoute,
+  AppMediaLibraryRoute: AppMediaLibraryRoute,
   AppModerationQueueRoute: AppModerationQueueRoute,
   AppReviewQueueRoute: AppReviewQueueRoute,
   AppSystemConfigurationRoute: AppSystemConfigurationRoute,

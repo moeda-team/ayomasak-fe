@@ -22,9 +22,9 @@ const HOUR_MS = 3_600_000
 const wait = () => new Promise((resolve) => setTimeout(resolve, MOCK_LATENCY_MS))
 
 const ACTORS: ActivityActor[] = [
-  { id: 'actor-1', name: 'Super Admin', email: 'superadmin@raos.com', roleId: 'super-admin' },
-  { id: 'actor-2', name: 'Admin User', email: 'adminuser@raos.com', roleId: 'content-manager' },
-  { id: 'actor-3', name: 'Manager', email: 'manager@raos.com', roleId: 'ops-lead' },
+  { id: 'actor-1', name: 'Super Admin', email: 'superadmin@masakuy.com', roleId: 'super-admin' },
+  { id: 'actor-2', name: 'Admin User', email: 'adminuser@masakuy.com', roleId: 'content-manager' },
+  { id: 'actor-3', name: 'Manager', email: 'manager@masakuy.com', roleId: 'ops-lead' },
 ]
 
 const TARGETS = [

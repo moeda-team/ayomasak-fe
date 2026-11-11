@@ -4,6 +4,7 @@ import {
   DatabaseIcon,
   FlagIcon,
   GearIcon,
+  ImagesIcon,
   ShieldCheckIcon,
   SquaresFourIcon,
   UsersIcon,
@@ -17,6 +18,7 @@ export type NavPath =
   | '/master-unit'
   | '/review-queue'
   | '/recipes'
+  | '/media-library'
   | '/data-quality'
   | '/analytics'
   | '/moderation-queue'
@@ -79,6 +81,7 @@ export const NAV_GROUPS: NavGroup[] = [
         ],
       },
       { label: 'Recipes', to: '/recipes', icon: CookingPotIcon },
+      { label: 'Media Library', to: '/media-library', icon: ImagesIcon },
       { label: 'Moderation Queue', to: '/moderation-queue', icon: FlagIcon },
     ],
   },

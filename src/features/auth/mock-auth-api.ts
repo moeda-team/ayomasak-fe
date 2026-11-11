@@ -12,8 +12,8 @@ export class InvalidCredentialsError extends Error {
   }
 }
 
-/** MOCK: replace with the real auth endpoint. Credentials: admin@raos.com / raos-admin-123 */
-const MOCK_ACCOUNT = { email: 'admin@raos.com', password: 'adminraos123', name: 'Super Admin' }
+/** MOCK: replace with the real auth endpoint. Credentials: admin@masakuy.com / masakuy123 */
+const MOCK_ACCOUNT = { email: 'admin@masakuy.com', password: 'masakuy123', name: 'Super Admin' }
 const MOCK_LATENCY_MS = 600
 
 export const signInRequest = async ({ email, password }: LoginFormValues): Promise<Session> => {

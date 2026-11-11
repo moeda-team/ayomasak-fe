@@ -91,8 +91,8 @@ export const LoginForm = ({ redirectTo }: LoginFormProps) => {
 
       <p className="text-center text-caption text-text-secondary">
         Forgot password? Please contact our admin at{' '}
-        <a href="mailto:support@raos.com" className="text-text-brand underline">
-          support@raos.com
+        <a href="mailto:support@masakuy.com" className="text-text-brand underline">
+          support@masakuy.com
         </a>
       </p>
     </form>

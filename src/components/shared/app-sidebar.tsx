@@ -1,6 +1,7 @@
 import { CaretLeftIcon } from '@phosphor-icons/react'
 import { Link, useRouterState } from '@tanstack/react-router'
 import { useState, type MouseEvent } from 'react'
+import { BrandLogo } from '@/components/shared/brand-logo'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
   Sidebar,
@@ -97,16 +98,7 @@ export const AppSidebar = () => {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="px-4 py-5 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:px-2">
-        <img
-          src="/raos-logo.svg"
-          alt="Raos"
-          className="h-8 w-auto self-start group-data-[collapsible=icon]:hidden dark:brightness-0 dark:invert"
-        />
-        <img
-          src="/raos-mark.svg"
-          alt="Raos"
-          className="hidden size-8 group-data-[collapsible=icon]:block dark:brightness-0 dark:invert"
-        />
+        <BrandLogo className="self-start" nameClassName="group-data-[collapsible=icon]:hidden" />
       </SidebarHeader>
       <SidebarContent>
         {NAV_GROUPS.map((group) => (
