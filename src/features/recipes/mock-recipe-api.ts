@@ -1,4 +1,5 @@
 import { failLoadIfMocked, isMockMode } from '@/lib/mock-load-failure'
+import type { RecipeEditorValues } from './recipe-editor-types'
 import {
   RECIPE_CATEGORIES,
   type EligibilityState,
@@ -130,5 +131,62 @@ export const restoreRecipe = async (id: string): Promise<Recipe> => {
   await wait()
   const recipe = requireRecipe(id)
   Object.assign(recipe, { status: 'draft', updatedAt: new Date().toISOString() })
+  return { ...recipe }
+}
+
+export const findRecipeSummary = (id: string): Recipe | undefined => {
+  const recipe = recipeDb.find((candidate) => candidate.id === id)
+  return recipe && { ...recipe }
+}
+
+/** Saving from the editor keeps the list row in step: a new recipe appears on top as a draft. */
+export const saveRecipeSummary = (id: string | undefined, values: RecipeEditorValues): Recipe => {
+  const existing = id ? recipeDb.find((candidate) => candidate.id === id) : undefined
+  const hasNutrition = Object.values(values.nutrition).every((text) => text.trim() !== '')
+  const fields = {
+    name: values.name.trim(),
+    category: values.category as RecipeCategory,
+    difficulty: values.difficulty as RecipeDifficulty,
+    updatedAt: new Date().toISOString(),
+  }
+  const eligibility = (viewable: EligibilityState): Recipe['eligibility'] => ({
+    viewable,
+    matchable: values.ingredients.length > 0 ? 'ok' : 'off',
+    nutrition: hasNutrition ? 'ok' : 'off',
+  })
+  if (existing) {
+    Object.assign(existing, fields, { eligibility: eligibility(existing.eligibility.viewable) })
+    return { ...existing }
+  }
+  const created: Recipe = {
+    id: `recipe-${crypto.randomUUID()}`,
+    aliases: [],
+    status: 'draft',
+    eligibility: eligibility('off'),
+    ...fields,
+  }
+  recipeDb.unshift(created)
+  return { ...created }
+}
+
+/** Publishing makes the recipe visible to users (viewable) and keeps the list row in step. */
+export const publishRecipeSummary = (id: string | undefined, values: RecipeEditorValues): Recipe => {
+  const saved = saveRecipeSummary(id, values)
+  const recipe = recipeDb.find((candidate) => candidate.id === saved.id)
+  if (!recipe) return saved
+  recipe.status = 'published'
+  recipe.eligibility = { ...recipe.eligibility, viewable: 'ok' }
+  return { ...recipe }
+}
+
+/** Moves a recipe through its lifecycle (draft revision, unpublish) and keeps the list row in step. */
+export const setRecipeStatus = (id: string, status: RecipeStatus): Recipe => {
+  const recipe = requireRecipe(id)
+  const isLive = status === 'published' || status === 'draft-revision'
+  Object.assign(recipe, {
+    status,
+    updatedAt: new Date().toISOString(),
+    eligibility: { ...recipe.eligibility, viewable: isLive ? 'ok' : 'off' },
+  })
   return { ...recipe }
 }

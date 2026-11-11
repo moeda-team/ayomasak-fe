@@ -30,6 +30,8 @@ type ComboboxProps<TValue extends string> = {
   icon?: Icon
   isInvalid?: boolean
   'aria-describedby'?: string
+  /** Names the trigger when there is no visible label, e.g. a field inside a table-like row. */
+  'aria-label'?: string
   disabled?: boolean
   className?: string
 }
@@ -50,6 +52,7 @@ export const Combobox = <TValue extends string>({
   icon: IconComponent,
   isInvalid = false,
   'aria-describedby': describedBy,
+  'aria-label': ariaLabel,
   disabled = false,
   className,
 }: ComboboxProps<TValue>) => {
@@ -72,6 +75,7 @@ export const Combobox = <TValue extends string>({
           aria-haspopup="listbox"
           aria-invalid={isInvalid || undefined}
           aria-describedby={describedBy}
+          aria-label={ariaLabel}
           disabled={disabled}
           onBlur={onBlur}
           className={cn(

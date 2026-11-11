@@ -9,11 +9,12 @@
  * - `denied`  the dashboard pages show "no access".
  * - `healthy` Data Quality has nothing left to fix.
  * - `empty`   Data Quality and Analytics have no data yet.
+ * - `no-publish` the signed-in user is a Content Manager: recipes can be edited but not published.
  *
  * The switch is read once when the app starts, because navigating inside the app drops the query string.
  * Reload without it to go back to normal.
  */
-const MOCK_MODES = ['error', 'partial', 'denied', 'healthy', 'empty'] as const
+const MOCK_MODES = ['error', 'partial', 'denied', 'healthy', 'empty', 'no-publish'] as const
 
 type MockMode = (typeof MOCK_MODES)[number]
 

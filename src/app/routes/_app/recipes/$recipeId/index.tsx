@@ -1,8 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { PagePlaceholder } from '@/components/shared/page-placeholder'
+import { RecipeEditorPage } from '@/features/recipes/recipe-editor-page'
 
-const RecipeDetailPage = () => <PagePlaceholder title="Recipe details" description="The recipe detail page is built in a later step." />
+const RecipeDetailRoute = () => {
+  const { recipeId } = Route.useParams()
+  return <RecipeEditorPage recipeId={recipeId} />
+}
 
 export const Route = createFileRoute('/_app/recipes/$recipeId/')({
-  component: RecipeDetailPage,
+  component: RecipeDetailRoute,
 })

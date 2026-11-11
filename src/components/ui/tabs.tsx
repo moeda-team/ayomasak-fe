@@ -11,7 +11,11 @@ function TabsList({ className, ...props }: React.ComponentProps<typeof TabsPrimi
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
-      className={cn("flex items-center gap-1 overflow-x-auto border-b border-border-default", className)}
+      // The scrollbar is hidden: the 1px the active tab overlaps the border by would otherwise show a stray vertical one.
+      className={cn(
+        "flex items-center gap-1 overflow-x-auto border-b border-border-default [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        className
+      )}
       {...props}
     />
   )

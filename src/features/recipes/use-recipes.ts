@@ -5,6 +5,9 @@ import type { Recipe, RecipeListParams } from './recipe-types'
 
 export const RECIPE_KEY = ['recipes'] as const
 
+/** What a lifecycle action needs to know about a recipe, so the detail page can act without the whole list row. */
+export type RecipeRef = Pick<Recipe, 'id' | 'name' | 'status'>
+
 export const useRecipeList = (params: RecipeListParams) =>
   useQuery({
     queryKey: [...RECIPE_KEY, 'list', params],
@@ -37,7 +40,7 @@ export const useDuplicateRecipe = () => {
 export const useArchiveRecipe = () => {
   const invalidateRecipes = useInvalidateRecipes()
   return useMutation({
-    mutationFn: (recipe: Recipe) => archiveRecipe(recipe.id),
+    mutationFn: (recipe: RecipeRef) => archiveRecipe(recipe.id),
     onSuccess: (recipe) => {
       notify.success({ title: 'Recipe archived', description: `${recipe.name} is hidden from users. You can restore it later.` })
       return invalidateRecipes()
@@ -53,7 +56,7 @@ export const useArchiveRecipe = () => {
 export const useRestoreRecipe = () => {
   const invalidateRecipes = useInvalidateRecipes()
   return useMutation({
-    mutationFn: (recipe: Recipe) => restoreRecipe(recipe.id),
+    mutationFn: (recipe: RecipeRef) => restoreRecipe(recipe.id),
     onSuccess: (recipe) => {
       notify.success({ title: 'Recipe restored', description: `${recipe.name} is back in the list as a draft.` })
       return invalidateRecipes()
